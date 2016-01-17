@@ -1,4 +1,4 @@
-package cubesystem.vn.notifyschedule;
+package cubesystem.vn.notifyschedule.activity;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,9 +13,9 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +26,7 @@ import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
+import cubesystem.vn.notifyschedule.R;
 import cubesystem.vn.notifyschedule.model.Schedule;
 import cubesystem.vn.notifyschedule.model.ScheduleList;
 import cubesystem.vn.notifyschedule.request.ScheduleRequest;
@@ -60,22 +61,12 @@ public class ScheduleListActivity extends AppCompatActivity {
                 return false;
             }
         });
+
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getBaseContext(), "OnItemLongClickListener", Toast.LENGTH_SHORT).show();
                 return true;
-            }
-        });
-        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                Log.e("ListView", "onScrollStateChanged");
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
             }
         });
 
@@ -175,7 +166,7 @@ public class ScheduleListActivity extends AppCompatActivity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             // Get the data item for this position
             Schedule schedule = getItem(position);
             // Check if an existing view is being reused, otherwise inflate the view
@@ -187,6 +178,14 @@ public class ScheduleListActivity extends AppCompatActivity {
             TextView tvEndTime = (TextView) convertView.findViewById(R.id.schedule_end_time);
             TextView tvTitle = (TextView) convertView.findViewById(R.id.schedule_title);
             TextView tvDescription = (TextView) convertView.findViewById(R.id.schedule_description);
+            ImageView ivDelete = (ImageView) convertView.findViewById(R.id.delete);
+            ivDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    actionDelete(position);
+                }
+            });
+
             // Populate the data into the template view using the data object
             tvStartTime.setText(schedule.getStart_time());
             tvEndTime.setText(schedule.getEnd_time());
@@ -194,6 +193,10 @@ public class ScheduleListActivity extends AppCompatActivity {
             tvDescription.setText(schedule.getDescription());
             // Return the completed view to render on screen
             return convertView;
+        }
+
+        private void actionDelete(int position){
+            this.remove(this.getItem(position));
         }
     }
 }
