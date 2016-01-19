@@ -36,3 +36,4 @@ android
 webservice/bin
 webservice/bin/console
 webservice/bin/symfony_requirements
+webservice/composer.lock
