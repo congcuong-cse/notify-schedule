@@ -30,10 +30,3 @@ proguard/
 
 # Android Studio captures folder
 captures/
-android/app/src/test
-webservice
-android
-webservice/bin
-webservice/bin/console
-webservice/bin/symfony_requirements
-webservice/composer.lock
