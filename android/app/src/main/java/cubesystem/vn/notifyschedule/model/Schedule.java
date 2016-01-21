@@ -3,8 +3,6 @@ package cubesystem.vn.notifyschedule.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.sql.Time;
-import java.util.Date;
-import java.util.Timer;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Schedule {
@@ -16,36 +14,36 @@ public class Schedule {
     private String description;
     private boolean del_flag;
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public int getId() {
         return id;
     }
 
-    public void setStart_time(String start_time) {
-        this.start_time = start_time;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getStart_time() {
         return start_time;
     }
 
-    public void setEnd_time(String end_time) {
-        this.end_time = end_time;
+    public void setStart_time(String start_time) {
+        this.start_time = start_time;
     }
 
     public String getEnd_time() {
         return end_time;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setEnd_time(String end_time) {
+        this.end_time = end_time;
     }
 
     public String getTitle() {
         return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
@@ -56,18 +54,17 @@ public class Schedule {
         this.description = description;
     }
 
-    public void setDel_flag(boolean del_flag) {
-        this.del_flag = del_flag;
-    }
-
     public boolean isDel_flag() {
         return del_flag;
+    }
+
+    public void setDel_flag(boolean del_flag) {
+        this.del_flag = del_flag;
     }
 
     public String timeRemaining(Time startTime, Time endTime) {
         startTime = Time.valueOf(start_time);
         endTime = Time.valueOf(end_time);
-
 
 
         return null;

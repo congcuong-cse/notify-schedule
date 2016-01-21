@@ -25,7 +25,7 @@ class ScheduleController extends Controller
 			
 		$schedules = $repository->findAll();
 		
-		return new JsonResponse($schedules);
+		return new ServiceResponse($schedules);
     }
     
     /**

@@ -30,7 +30,8 @@ import com.octo.android.robospice.request.listener.RequestListener;
 import cubesystem.vn.notifyschedule.R;
 import cubesystem.vn.notifyschedule.model.Schedule;
 import cubesystem.vn.notifyschedule.model.ScheduleList;
-import cubesystem.vn.notifyschedule.request.ScheduleRequest;
+import cubesystem.vn.notifyschedule.request.ScheduleAllRequest;
+import cubesystem.vn.notifyschedule.response.ScheduleAllResponse;
 import cubesystem.vn.notifyschedule.service.JsonSpiceService;
 import cubesystem.vn.notifyschedule.service.TimeService;
 
@@ -53,7 +54,7 @@ public class ScheduleListActivity extends AppCompatActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ((SwipeLayout)(mListView.getChildAt(position - mListView.getFirstVisiblePosition()))).open(true);
+                ((SwipeLayout) (mListView.getChildAt(position - mListView.getFirstVisiblePosition()))).open(true);
             }
         });
         mListView.setOnTouchListener(new View.OnTouchListener() {
@@ -139,27 +140,33 @@ public class ScheduleListActivity extends AppCompatActivity {
     private void performRequest() {
         ScheduleListActivity.this.setProgressBarIndeterminateVisibility(true);
 
-        ScheduleRequest request = new ScheduleRequest();
+        ScheduleAllRequest request = new ScheduleAllRequest();
         String lastRequestCacheKey = request.createCacheKey();
 
         spiceManager.execute(request, lastRequestCacheKey, DurationInMillis.ONE_MINUTE, new ListScheduleRequestListener());
     }
 
     //inner class of your spiced Activity
-    private class ListScheduleRequestListener implements RequestListener<ScheduleList> {
+    private class ListScheduleRequestListener implements RequestListener<ScheduleAllResponse> {
 
         @Override
         public void onRequestFailure(SpiceException e) {
             //update your UI
             Log.e(TAG, e.getMessage());
+            Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
         @Override
-        public void onRequestSuccess(ScheduleList scheduleList) {
+        public void onRequestSuccess(ScheduleAllResponse response) {
             //update your UI
-            Log.d(TAG, scheduleList.toString());
-            mAdapter = new ScheduleListAdapter(getBaseContext(), R.layout.schedule_list_item, scheduleList);
-            mListView.setAdapter(mAdapter);
+            Log.d(TAG, response.toString());
+
+            if (response.isSuccess()) {
+                mAdapter = new ScheduleListAdapter(getBaseContext(), R.layout.schedule_list_item, response.getData());
+                mListView.setAdapter(mAdapter);
+            } else {
+                Toast.makeText(getBaseContext(), response.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -175,7 +182,7 @@ public class ScheduleListActivity extends AppCompatActivity {
             Schedule schedule = getItem(position);
             // Check if an existing view is being reused, otherwise inflate the view
             if (convertView == null) {
-                convertView = LayoutInflater.from( getContext()).inflate(R.layout.schedule_list_item, parent, false);
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.schedule_list_item, parent, false);
             }
             // Lookup view for data population
             TextView tvStartTime = (TextView) convertView.findViewById(R.id.schedule_start_time);
@@ -199,7 +206,7 @@ public class ScheduleListActivity extends AppCompatActivity {
             return convertView;
         }
 
-        private void actionDelete(int position){
+        private void actionDelete(int position) {
             this.remove(this.getItem(position));
         }
     }

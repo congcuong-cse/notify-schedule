@@ -6,8 +6,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 

@@ -17,30 +17,30 @@ import java.util.List;
 
 public class JsonSpiceService extends SpringAndroidSpiceService {
 
-  @Override
-  public CacheManager createCacheManager( Application application ) throws CacheCreationException {
-    CacheManager cacheManager = new CacheManager();
-    JacksonObjectPersisterFactory jacksonObjectPersisterFactory = new JacksonObjectPersisterFactory( application );
-    cacheManager.addPersister( jacksonObjectPersisterFactory );
-    return cacheManager;
-  }
+    @Override
+    public CacheManager createCacheManager(Application application) throws CacheCreationException {
+        CacheManager cacheManager = new CacheManager();
+        JacksonObjectPersisterFactory jacksonObjectPersisterFactory = new JacksonObjectPersisterFactory(application);
+        cacheManager.addPersister(jacksonObjectPersisterFactory);
+        return cacheManager;
+    }
 
-  @Override
-  public RestTemplate createRestTemplate() {
-    RestTemplate restTemplate = new RestTemplate();
-    //find more complete examples in RoboSpice Motivation app
-    //to enable Gzip compression and setting request timeouts.
+    @Override
+    public RestTemplate createRestTemplate() {
+        RestTemplate restTemplate = new RestTemplate();
+        //find more complete examples in RoboSpice Motivation app
+        //to enable Gzip compression and setting request timeouts.
 
-    // web services support json responses
-    MappingJacksonHttpMessageConverter jsonConverter = new MappingJacksonHttpMessageConverter();
-    FormHttpMessageConverter formHttpMessageConverter = new FormHttpMessageConverter();
-    StringHttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter();
-    final List<HttpMessageConverter< ? >> listHttpMessageConverters = restTemplate.getMessageConverters();
+        // web services support json responses
+        MappingJacksonHttpMessageConverter jsonConverter = new MappingJacksonHttpMessageConverter();
+        FormHttpMessageConverter formHttpMessageConverter = new FormHttpMessageConverter();
+        StringHttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter();
+        final List<HttpMessageConverter<?>> listHttpMessageConverters = restTemplate.getMessageConverters();
 
-    listHttpMessageConverters.add( jsonConverter );
-    listHttpMessageConverters.add( formHttpMessageConverter );
-    listHttpMessageConverters.add( stringHttpMessageConverter );
-    restTemplate.setMessageConverters( listHttpMessageConverters );
-    return restTemplate;
-  }
+        listHttpMessageConverters.add(jsonConverter);
+        listHttpMessageConverters.add(formHttpMessageConverter);
+        listHttpMessageConverters.add(stringHttpMessageConverter);
+        restTemplate.setMessageConverters(listHttpMessageConverters);
+        return restTemplate;
+    }
 }

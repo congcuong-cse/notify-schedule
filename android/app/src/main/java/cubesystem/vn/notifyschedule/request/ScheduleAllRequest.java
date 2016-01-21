@@ -2,21 +2,21 @@ package cubesystem.vn.notifyschedule.request;
 
 import com.octo.android.robospice.request.springandroid.SpringAndroidSpiceRequest;
 
-import cubesystem.vn.notifyschedule.model.ScheduleList;
+import cubesystem.vn.notifyschedule.response.ScheduleAllResponse;
 
 //Create a request in its own Java file, it should not an inner class of a Context
-public class ScheduleRequest extends SpringAndroidSpiceRequest<ScheduleList> {
+public class ScheduleAllRequest extends SpringAndroidSpiceRequest<ScheduleAllResponse> {
 
-    public ScheduleRequest() {
-        super(ScheduleList.class);
+    public ScheduleAllRequest() {
+        super(ScheduleAllResponse.class);
     }
 
     @Override
-    public ScheduleList loadDataFromNetwork() throws Exception {
+    public ScheduleAllResponse loadDataFromNetwork() throws Exception {
 
-        String url = "http://192.168.1.226/schedules";
+        String url = "http://192.168.1.226:8000/schedules";
 
-        return getRestTemplate().getForObject(url, ScheduleList.class);
+        return getRestTemplate().getForObject(url, ScheduleAllResponse.class);
     }
 
     /**
