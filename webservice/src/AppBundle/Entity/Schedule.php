@@ -193,12 +193,17 @@ class Schedule implements JsonSerializable
         return $this->delFlag;
     }
 	
+    /**
+     * implement JsonSeriable
+     * 
+     * @return string
+     */
 	public function jsonSerialize()
     {
         return array(
             'id' => $this->getId(),
-            'start_time'=> $this->getStartTime()->format('H:i'),
-            'end_time' => $this->getEndTime()->format('H:i'),
+            'start_time'=> $this->getStartTime() == null ? null : $this->getStartTime()->format('H:i'),
+            'end_time' => $this->getEndTime() == null ? null : $this->getEndTime()->format('H:i'),
             'title' => $this->getTitle(),
 			'description' => $this->getDescription(),
 			'del_flag' => $this->getDelFlag(),
