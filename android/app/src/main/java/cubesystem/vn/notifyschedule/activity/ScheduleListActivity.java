@@ -1,6 +1,7 @@
 package cubesystem.vn.notifyschedule.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -31,6 +32,7 @@ import cubesystem.vn.notifyschedule.model.Schedule;
 import cubesystem.vn.notifyschedule.model.ScheduleList;
 import cubesystem.vn.notifyschedule.request.ScheduleRequest;
 import cubesystem.vn.notifyschedule.service.JsonSpiceService;
+import cubesystem.vn.notifyschedule.service.TimeService;
 
 public class ScheduleListActivity extends AppCompatActivity {
 
@@ -61,6 +63,8 @@ public class ScheduleListActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        startService(new Intent(this, TimeService.class));
 
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override

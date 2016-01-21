@@ -2,6 +2,10 @@ package cubesystem.vn.notifyschedule.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.sql.Time;
+import java.util.Date;
+import java.util.Timer;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Schedule {
 
@@ -58,5 +62,14 @@ public class Schedule {
 
     public boolean isDel_flag() {
         return del_flag;
+    }
+
+    public String timeRemaining(Time startTime, Time endTime) {
+        startTime = Time.valueOf(start_time);
+        endTime = Time.valueOf(end_time);
+
+
+
+        return null;
     }
 }
