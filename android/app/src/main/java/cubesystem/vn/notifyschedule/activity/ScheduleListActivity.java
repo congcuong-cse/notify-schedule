@@ -57,6 +57,9 @@ public class ScheduleListActivity extends AppCompatActivity {
                 ((SwipeLayout) (mListView.getChildAt(position - mListView.getFirstVisiblePosition()))).open(true);
             }
         });
+
+        startService(new Intent(this, TimeService.class));
+
         mListView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -64,8 +67,6 @@ public class ScheduleListActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-        startService(new Intent(this, TimeService.class));
 
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -86,7 +87,6 @@ public class ScheduleListActivity extends AppCompatActivity {
                 Log.e("ListView", "onNothingSelected:");
             }
         });
-
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
