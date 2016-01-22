@@ -2,6 +2,9 @@ package cubesystem.vn.notifyschedule.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+
 import java.sql.Time;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -69,4 +72,17 @@ public class Schedule {
 
         return null;
     }
+
+    public  MultiValueMap<String, String> requestParameters(){
+
+        MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+        parameters.set("start_time", this.getStart_time());
+        parameters.set("end_time", this.getEnd_time());
+        parameters.set("title", this.getTitle());
+        parameters.set("description", this.getDescription());
+
+        return parameters;
+    }
+
+
 }

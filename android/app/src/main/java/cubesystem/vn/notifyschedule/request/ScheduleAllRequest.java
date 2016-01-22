@@ -14,7 +14,7 @@ public class ScheduleAllRequest extends SpringAndroidSpiceRequest<ScheduleAllRes
     @Override
     public ScheduleAllResponse loadDataFromNetwork() throws Exception {
 
-        String url = "http://192.168.1.226:8000/schedules";
+        String url = ServiceRequestConstrant.hostAppendSub("/schedules");
 
         return getRestTemplate().getForObject(url, ScheduleAllResponse.class);
     }
