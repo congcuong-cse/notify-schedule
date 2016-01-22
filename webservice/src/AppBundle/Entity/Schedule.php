@@ -51,7 +51,6 @@ class Schedule implements JsonSerializable
      * @var string
      *
      * @ORM\Column(name="description", type="text")
-	 * @Assert\NotBlank()
      */
     private $description;
 
@@ -60,7 +59,7 @@ class Schedule implements JsonSerializable
      *
      * @ORM\Column(name="del_flag", type="boolean", options={"default" = false})
      */
-    private $delFlag;
+    private $delFlag = false;
 
 
     /**
