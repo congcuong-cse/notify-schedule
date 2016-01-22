@@ -2,9 +2,13 @@ package cubesystem.vn.notifyschedule.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+
 import java.util.Calendar;
 
 import cubesystem.vn.notifyschedule.view.TimePreference;
+
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Schedule {
@@ -68,15 +72,28 @@ public class Schedule {
 
         int startTime = TimePreference.getHour(start_time) * 3600 + TimePreference.getMinute(start_time) * 60;
         int endTime = TimePreference.getHour(end_time) * 3600 + TimePreference.getMinute(end_time) * 60;
-        int currentTime = calendar.get(Calendar.HOUR_OF_DAY) * 3600 + calendar.get(Calendar.MINUTE) * 60 ;
+        int currentTime = calendar.get(Calendar.HOUR_OF_DAY) * 3600 + calendar.get(Calendar.MINUTE) * 60;
 
-        if(startTime <= currentTime && currentTime <= endTime) {
+        if (startTime <= currentTime && currentTime <= endTime) {
             int remaining_sec = endTime - currentTime;
             int remaning_hour = remaining_sec / 3600;
             int remaning_min = remaining_sec % 3600 / 60;
-            return String.format("%d:%d",remaning_hour, remaning_min );
+            return String.format("%d:%d", remaning_hour, remaning_min);
         }
 
         return null;
     }
+
+    public MultiValueMap<String, String> requestParameters() {
+
+        MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
+        parameters.set("start_time", this.getStart_time());
+        parameters.set("end_time", this.getEnd_time());
+        parameters.set("title", this.getTitle());
+        parameters.set("description", this.getDescription());
+
+        return parameters;
+    }
+
+
 }

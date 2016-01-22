@@ -10,4 +10,8 @@ namespace AppBundle\Repository;
  */
 class ScheduleRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findAll()
+    {
+        return $this->findBy(array("delFlag" => false), array('endTime' => 'ASC'));
+    }
 }
