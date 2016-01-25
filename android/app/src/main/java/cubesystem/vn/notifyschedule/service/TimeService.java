@@ -2,7 +2,6 @@ package cubesystem.vn.notifyschedule.service;
 
 import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -92,7 +91,7 @@ public class TimeService extends Service {
                     for (Schedule shSchedule : scheduleAllResponse.getData()) {
                         String remaining = shSchedule.timeRemaining(now);
                         if (remaining != null) {
-                            messArr.add(String.format("%s nua la: %s(%s)", remaining, shSchedule.getTitle(), shSchedule.getDescription()));
+                            messArr.add(String.format("%s後、%s", remaining, shSchedule.getMessage()));
                         }
                     }
 

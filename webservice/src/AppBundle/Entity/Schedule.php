@@ -42,17 +42,9 @@ class Schedule implements JsonSerializable
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=255)
-	 * @Assert\NotBlank()
+     * @ORM\Column(name="message", type="text")
      */
-    private $title;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="text")
-     */
-    private $description;
+    private $message;
 
     /**
      * @var bool
@@ -120,52 +112,29 @@ class Schedule implements JsonSerializable
         return $this->endTime;
     }
 
+
     /**
-     * Set title
+     * Set message
      *
-     * @param string $title
+     * @param string $message
      *
      * @return Schedule
      */
-    public function setTitle($title)
+    public function setMessage($message)
     {
-        $this->title = $title;
+        $this->message = $message;
 
         return $this;
     }
 
     /**
-     * Get title
+     * Get message
      *
      * @return string
      */
-    public function getTitle()
+    public function getMessage()
     {
-        return $this->title;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     *
-     * @return Schedule
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
+        return $this->message;
     }
 
     /**
@@ -203,8 +172,7 @@ class Schedule implements JsonSerializable
             'id' => $this->getId(),
             'start_time'=> $this->getStartTime() == null ? null : $this->getStartTime()->format('H:i'),
             'end_time' => $this->getEndTime() == null ? null : $this->getEndTime()->format('H:i'),
-            'title' => $this->getTitle(),
-			'description' => $this->getDescription(),
+			'message' => $this->getMessage(),
 			'del_flag' => $this->getDelFlag(),
         );
     }

@@ -26,7 +26,7 @@ public class ScheduleDeleteRequest  extends SpringAndroidSpiceRequest<ScheduleRe
     @Override
     public ScheduleResponse loadDataFromNetwork() throws Exception {
 
-        String url = ServiceRequestConstrant.hostAppendSub("/delete/" + mSchedule.getId());
+        String url = ServiceRequestConstrant.hostAppendSub("/schedule/delete/" + mSchedule.getId());
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);

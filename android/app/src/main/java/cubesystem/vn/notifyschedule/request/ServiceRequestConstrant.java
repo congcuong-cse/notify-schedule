@@ -5,7 +5,7 @@ package cubesystem.vn.notifyschedule.request;
  */
 public class ServiceRequestConstrant {
     public static String host(){
-        return "http://192.168.11.28:8000";
+        return "http://192.168.11.29:8000";
     }
 
     public static String hostAppendSub(String subUrl){

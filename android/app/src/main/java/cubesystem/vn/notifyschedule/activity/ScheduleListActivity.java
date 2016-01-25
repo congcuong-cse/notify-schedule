@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -79,12 +78,17 @@ public class ScheduleListActivity extends AppCompatActivity {
         mListView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("ListView", "onItemSelected:" + position);
+                Log.d(TAG, "onItemSelected:" + position);
+                Intent myIntent = new Intent(ScheduleListActivity.this, Schedule.class);
+
+                Schedule selectedSchedule = (Schedule)mListView.getAdapter().getItem(position);
+                myIntent.putExtra("schedule_id", selectedSchedule.getId());
+                startActivity(myIntent);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Log.e("ListView", "onNothingSelected:");
+                Log.e(TAG, "onNothingSelected:");
             }
         });
 
@@ -92,7 +96,7 @@ public class ScheduleListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent myIntent = new Intent(ScheduleListActivity.this, Schedule.class);
+                Intent myIntent = new Intent(ScheduleListActivity.this, ScheduleActivity.class);
                 startActivity(myIntent);
             }
         });
@@ -187,8 +191,7 @@ public class ScheduleListActivity extends AppCompatActivity {
             // Lookup view for data population
             TextView tvStartTime = (TextView) convertView.findViewById(R.id.schedule_start_time);
             TextView tvEndTime = (TextView) convertView.findViewById(R.id.schedule_end_time);
-            TextView tvTitle = (TextView) convertView.findViewById(R.id.schedule_title);
-            TextView tvDescription = (TextView) convertView.findViewById(R.id.schedule_description);
+            TextView tvMessage = (TextView) convertView.findViewById(R.id.schedule_message);
             ImageView ivDelete = (ImageView) convertView.findViewById(R.id.delete);
             ivDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -200,8 +203,7 @@ public class ScheduleListActivity extends AppCompatActivity {
             // Populate the data into the template view using the data object
             tvStartTime.setText(schedule.getStart_time());
             tvEndTime.setText(schedule.getEnd_time());
-            tvTitle.setText(schedule.getTitle());
-            tvDescription.setText(schedule.getDescription());
+            tvMessage.setText(schedule.getMessage());
             // Return the completed view to render on screen
             return convertView;
         }

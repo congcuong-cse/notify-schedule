@@ -56,8 +56,7 @@ class ScheduleController extends Controller
         $schedule = new Schedule();    
         $schedule->setStartTime(new \DateTime($request->request->get("start_time")));
         $schedule->setEndTime(new \DateTime($request->request->get("end_time")));
-        $schedule->setTitle($request->request->get("title"));
-        $schedule->setDescription($request->request->get("description"));
+        $schedule->setMessage($request->request->get("message"));
         
         $validator = $this->get('validator');
         $errors = $validator->validate($schedule);
@@ -95,8 +94,7 @@ class ScheduleController extends Controller
     
         $schedule->setStartTime(new \DateTime($request->request->get("start_time")));
         $schedule->setEndTime(new \DateTime($request->request->get("end_time")));
-        $schedule->setTitle($request->request->get("title"));
-        $schedule->setDescription($request->request->get("description"));
+        $schedule->setMessage($request->request->get("message"));
         
         $validator = $this->get('validator');
         $errors = $validator->validate($schedule);

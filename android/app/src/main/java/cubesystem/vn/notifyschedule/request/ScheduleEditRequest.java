@@ -26,7 +26,7 @@ public class ScheduleEditRequest extends SpringAndroidSpiceRequest<ScheduleRespo
     @Override
     public ScheduleResponse loadDataFromNetwork() throws Exception {
 
-        String url = ServiceRequestConstrant.hostAppendSub("/edit/" + mSchedule.getId());
+        String url = ServiceRequestConstrant.hostAppendSub("/schedule/edit/" + mSchedule.getId());
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);

@@ -27,7 +27,7 @@ public class ScheduleCreateRequest extends SpringAndroidSpiceRequest<ScheduleRes
     @Override
     public ScheduleResponse loadDataFromNetwork() throws Exception {
 
-        String url = ServiceRequestConstrant.hostAppendSub("/create");
+        String url = ServiceRequestConstrant.hostAppendSub("/schedule/create");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);

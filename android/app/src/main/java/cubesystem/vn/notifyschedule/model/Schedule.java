@@ -16,8 +16,7 @@ public class Schedule {
     private int id;
     private String start_time;
     private String end_time;
-    private String title;
-    private String description;
+    private String message;
     private boolean del_flag;
 
     public int getId() {
@@ -44,20 +43,12 @@ public class Schedule {
         this.end_time = end_time;
     }
 
-    public String getTitle() {
-        return title;
+    public String getMessage() {
+        return message;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public boolean isDel_flag() {
@@ -89,8 +80,7 @@ public class Schedule {
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
         parameters.set("start_time", this.getStart_time());
         parameters.set("end_time", this.getEnd_time());
-        parameters.set("title", this.getTitle());
-        parameters.set("description", this.getDescription());
+        parameters.set("message", this.getMessage());
 
         return parameters;
     }
