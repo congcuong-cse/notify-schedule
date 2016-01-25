@@ -53,17 +53,16 @@ public class ScheduleActivity extends AppCompatActivity {
         editTextTo = (EditText) findViewById(R.id.editTextTo);
         editTextMessage = (EditText) findViewById(R.id.editTextMessage);
 
-        String schedule_id = null;
+        int schedule_id = -1;
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
-            schedule_id= extras.getString("schedule_id");
+            schedule_id = extras.getInt("schedule_id");
         }
 
-        if (schedule_id != null){
+        if (schedule_id > 0){
             getScheduleFromServer(schedule_id);
             updateState(State.UPDATE);
         }
-
 
 
         /*
@@ -116,7 +115,7 @@ public class ScheduleActivity extends AppCompatActivity {
         editTextMessage.setText(mSchedule.getMessage());
     }
 
-    private void getScheduleFromServer(String schedule_id){
+    private void getScheduleFromServer(int schedule_id){
         ScheduleActivity.this.setProgressBarIndeterminateVisibility(true);
 
         ScheduleShowRequest request = new ScheduleShowRequest(schedule_id);

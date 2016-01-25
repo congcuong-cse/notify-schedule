@@ -10,9 +10,9 @@ import cubesystem.vn.notifyschedule.response.ScheduleResponse;
  */
 public class ScheduleShowRequest extends SpringAndroidSpiceRequest<ScheduleResponse> {
 
-    protected String mScheduleId;
+    protected int mScheduleId;
 
-    public ScheduleShowRequest(String schedule_id) {
+    public ScheduleShowRequest(int schedule_id) {
         super(ScheduleResponse.class);
 
         mScheduleId = schedule_id;

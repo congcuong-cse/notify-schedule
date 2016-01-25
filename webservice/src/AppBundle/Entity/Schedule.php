@@ -43,6 +43,7 @@ class Schedule implements JsonSerializable
      * @var string
      *
      * @ORM\Column(name="message", type="text")
+	 * @Assert\NotBlank()
      */
     private $message;
 

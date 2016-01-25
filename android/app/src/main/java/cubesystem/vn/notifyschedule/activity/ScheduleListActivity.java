@@ -53,7 +53,13 @@ public class ScheduleListActivity extends AppCompatActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ((SwipeLayout) (mListView.getChildAt(position - mListView.getFirstVisiblePosition()))).open(true);
+
+                Schedule selectedSchedule = (Schedule)mListView.getAdapter().getItem(position);
+                Intent myIntent = new Intent(ScheduleListActivity.this, ScheduleActivity.class);
+                myIntent.putExtra("schedule_id", selectedSchedule.getId());
+                startActivity(myIntent);
+
+                //((SwipeLayout) (mListView.getChildAt(position - mListView.getFirstVisiblePosition()))).open(true);
             }
         });
 
@@ -79,11 +85,7 @@ public class ScheduleListActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(TAG, "onItemSelected:" + position);
-                Intent myIntent = new Intent(ScheduleListActivity.this, Schedule.class);
 
-                Schedule selectedSchedule = (Schedule)mListView.getAdapter().getItem(position);
-                myIntent.putExtra("schedule_id", selectedSchedule.getId());
-                startActivity(myIntent);
             }
 
             @Override
