@@ -5,7 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import java.sql.Time;
+import java.util.Calendar;
+
+import cubesystem.vn.notifyschedule.view.TimePreference;
+
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Schedule {
@@ -65,15 +68,23 @@ public class Schedule {
         this.del_flag = del_flag;
     }
 
-    public String timeRemaining(Time startTime, Time endTime) {
-        startTime = Time.valueOf(start_time);
-        endTime = Time.valueOf(end_time);
+    public String timeRemaining(Calendar calendar) {
 
+        int startTime = TimePreference.getHour(start_time) * 3600 + TimePreference.getMinute(start_time) * 60;
+        int endTime = TimePreference.getHour(end_time) * 3600 + TimePreference.getMinute(end_time) * 60;
+        int currentTime = calendar.get(Calendar.HOUR_OF_DAY) * 3600 + calendar.get(Calendar.MINUTE) * 60;
+
+        if (startTime <= currentTime && currentTime <= endTime) {
+            int remaining_sec = endTime - currentTime;
+            int remaning_hour = remaining_sec / 3600;
+            int remaning_min = remaining_sec % 3600 / 60;
+            return String.format("%d:%d", remaning_hour, remaning_min);
+        }
 
         return null;
     }
 
-    public  MultiValueMap<String, String> requestParameters(){
+    public MultiValueMap<String, String> requestParameters() {
 
         MultiValueMap<String, String> parameters = new LinkedMultiValueMap<String, String>();
         parameters.set("start_time", this.getStart_time());
