@@ -11,12 +11,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-
         <service
             android:name=".service.JsonSpiceService"
             android:exported="false" />
-
-        <service android:name=".service.TimeService"/>
+        <service android:name=".service.TimeService" />
 
         <activity
             android:name=".activity.ScheduleListActivity"
@@ -27,6 +25,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.ScheduleActivity"
+            android:label="@string/title_activity_schedule"
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>
 
