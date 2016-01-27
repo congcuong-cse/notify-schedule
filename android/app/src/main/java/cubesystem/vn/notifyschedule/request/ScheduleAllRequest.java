@@ -26,6 +26,6 @@ public class ScheduleAllRequest extends SpringAndroidSpiceRequest<ScheduleAllRes
      * @return
      */
     public String createCacheKey() {
-        return "schedules";
+        return "schedule_all";
     }
 }

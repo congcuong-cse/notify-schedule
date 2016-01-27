@@ -43,6 +43,6 @@ public class ScheduleEditRequest extends SpringAndroidSpiceRequest<ScheduleRespo
      * @return
      */
     public String createCacheKey() {
-        return "schedule_create";
+        return "schedule_edit_" + mSchedule.getId() ;
     }
 }

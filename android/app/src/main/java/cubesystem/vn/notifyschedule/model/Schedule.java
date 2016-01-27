@@ -13,6 +13,18 @@ import cubesystem.vn.notifyschedule.view.TimePreference;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Schedule {
 
+    public static int getHour(String time) {
+        String[] pieces = time.split(":");
+
+        return (Integer.parseInt(pieces[0]));
+    }
+
+    public static int getMinute(String time) {
+        String[] pieces = time.split(":");
+
+        return (Integer.parseInt(pieces[1]));
+    }
+
     private int id;
     private String start_time;
     private String end_time;
@@ -61,8 +73,8 @@ public class Schedule {
 
     public String timeRemaining(Calendar calendar) {
 
-        int startTime = TimePreference.getHour(start_time) * 3600 + TimePreference.getMinute(start_time) * 60;
-        int endTime = TimePreference.getHour(end_time) * 3600 + TimePreference.getMinute(end_time) * 60;
+        int startTime = Schedule.getHour(start_time) * 3600 + Schedule.getMinute(start_time) * 60;
+        int endTime = Schedule.getHour(end_time) * 3600 + Schedule.getMinute(end_time) * 60;
         int currentTime = calendar.get(Calendar.HOUR_OF_DAY) * 3600 + calendar.get(Calendar.MINUTE) * 60;
 
         if (startTime <= currentTime && currentTime <= endTime) {

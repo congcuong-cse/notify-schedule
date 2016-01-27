@@ -53,9 +53,15 @@ class ScheduleController extends Controller
      */
     public function createAction(Request $request){
             
-        $schedule = new Schedule();    
-        $schedule->setStartTime(new \DateTime($request->request->get("start_time")));
-        $schedule->setEndTime(new \DateTime($request->request->get("end_time")));
+        $schedule = new Schedule();
+        if ($request->request->get("start_time") != null) {
+            $schedule->setStartTime(new \DateTime($request->request->get("start_time")));
+        }
+        
+        if ($request->request->get("end_time") != null) {
+            $schedule->setEndTime(new \DateTime($request->request->get("end_time")));
+        }
+        
         $schedule->setMessage($request->request->get("message"));
         
         $validator = $this->get('validator');
@@ -91,9 +97,15 @@ class ScheduleController extends Controller
             $mess = "schedule(id=$id) not found !";
             return new ServiceResponse(null, false, $mess);
         }
-    
-        $schedule->setStartTime(new \DateTime($request->request->get("start_time")));
-        $schedule->setEndTime(new \DateTime($request->request->get("end_time")));
+        
+        if ($request->request->get("start_time") != null) {
+            $schedule->setStartTime(new \DateTime($request->request->get("start_time")));
+        }
+        
+        if ($request->request->get("end_time") != null) {
+            $schedule->setEndTime(new \DateTime($request->request->get("end_time")));
+        }
+        
         $schedule->setMessage($request->request->get("message"));
         
         $validator = $this->get('validator');
@@ -133,16 +145,6 @@ class ScheduleController extends Controller
         }
     
         $schedule->setDelFlag(true);
-        
-        $validator = $this->get('validator');
-        $errors = $validator->validate($schedule);
-        
-        if (count($errors) > 0) {
-            
-            $mess = ServiceResponse::messageFromValidateErrorList($errors);
-            
-            return new ServiceResponse($schedule, false, $mess);
-        }
         
         $em->flush();
         

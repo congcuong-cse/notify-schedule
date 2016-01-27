@@ -22,6 +22,8 @@ import cubesystem.vn.notifyschedule.request.ScheduleEditRequest;
 import cubesystem.vn.notifyschedule.request.ScheduleShowRequest;
 import cubesystem.vn.notifyschedule.response.ScheduleResponse;
 import cubesystem.vn.notifyschedule.service.JsonSpiceService;
+import cubesystem.vn.notifyschedule.view.SetTime;
+import cubesystem.vn.notifyschedule.view.TimePreference;
 
 public class ScheduleActivity extends AppCompatActivity {
 
@@ -52,6 +54,9 @@ public class ScheduleActivity extends AppCompatActivity {
         editTextFrom = (EditText) findViewById(R.id.editTextFrom);
         editTextTo = (EditText) findViewById(R.id.editTextTo);
         editTextMessage = (EditText) findViewById(R.id.editTextMessage);
+
+        SetTime fromTime = new SetTime(editTextFrom, this);
+        SetTime toTime = new SetTime(editTextTo, this);
 
         int schedule_id = -1;
         Bundle extras = getIntent().getExtras();
@@ -147,9 +152,49 @@ public class ScheduleActivity extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
-            mSchedule.setStart_time(editTextFrom.getText().toString());
-            mSchedule.setEnd_time(editTextTo.getText().toString());
-            mSchedule.setMessage(editTextMessage.getText().toString());
+            boolean isValid = true;
+            editTextFrom.setError(null);
+            editTextTo.setError(null);
+            editTextMessage.setError(null);
+
+            if (editTextFrom.getText().toString().trim().isEmpty()) {
+                editTextFrom.setError("This value should not be blank");
+                isValid = false;
+            }
+
+            if (editTextTo.getText().toString().trim().isEmpty()) {
+                editTextTo.setError("This value should not be blank");
+                isValid = false;
+            }
+
+            if (isValid){
+                String from = editTextFrom.getText().toString();
+                String to = editTextTo.getText().toString();
+
+                int startTime = Schedule.getHour(from) * 3600 + Schedule.getMinute(from) * 60;
+                int endTime = Schedule.getHour(to) * 3600 + Schedule.getMinute(to) * 60;
+
+                if(startTime >= endTime)
+                {
+                    editTextFrom.setError("start_time should less than end_time");
+                    editTextTo.setError("end_time should greater than start_time");
+                    isValid = false;
+                }
+            }
+
+
+            if (editTextMessage.getText().toString().trim().isEmpty()){
+                editTextMessage.setError("This value should not be blank");
+                isValid = false;
+            }
+
+            if (!isValid){
+                return;
+            }
+
+            mSchedule.setStart_time(editTextFrom.getText().toString().trim());
+            mSchedule.setEnd_time(editTextTo.getText().toString().trim());
+            mSchedule.setMessage(editTextMessage.getText().toString().trim());
 
             if (mState == State.CREATE){
                 createScheduleToServer();

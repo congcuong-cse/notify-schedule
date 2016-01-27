@@ -34,6 +34,6 @@ public class ScheduleShowRequest extends SpringAndroidSpiceRequest<ScheduleRespo
      * @return
      */
     public String createCacheKey() {
-        return "schedules_" + mScheduleId;
+        return "schedule_show_" + mScheduleId;
     }
 }

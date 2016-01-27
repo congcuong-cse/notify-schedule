@@ -7,6 +7,8 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
@@ -105,6 +107,7 @@ public class TimeService extends Service {
                             //PendingIntent resultPendingIntent = PendingIntent.getActivity(getBaseContext(), 0, resultIntent, 0);
 
                             NotificationCompat.Builder builder = new NotificationCompat.Builder(getBaseContext());
+                            Uri alertSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                             builder.setSmallIcon(R.mipmap.ic_launcher)
                                     .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
                                     .setContentTitle(shSchedule.getMessage())
@@ -113,6 +116,7 @@ public class TimeService extends Service {
                                     .setFullScreenIntent(null, true)
                                     .setDefaults(Notification.DEFAULT_ALL)
                                     .setPriority(Notification.PRIORITY_MAX)
+                                    .setSound(alertSound)
                                     .setVisibility(Notification.VISIBILITY_PUBLIC);
 
 

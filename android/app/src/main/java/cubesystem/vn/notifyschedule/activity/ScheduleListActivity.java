@@ -30,7 +30,10 @@ import cubesystem.vn.notifyschedule.R;
 import cubesystem.vn.notifyschedule.model.Schedule;
 import cubesystem.vn.notifyschedule.model.ScheduleList;
 import cubesystem.vn.notifyschedule.request.ScheduleAllRequest;
+import cubesystem.vn.notifyschedule.request.ScheduleDeleteRequest;
+import cubesystem.vn.notifyschedule.request.ScheduleEditRequest;
 import cubesystem.vn.notifyschedule.response.ScheduleAllResponse;
+import cubesystem.vn.notifyschedule.response.ScheduleResponse;
 import cubesystem.vn.notifyschedule.service.JsonSpiceService;
 import cubesystem.vn.notifyschedule.service.TimeService;
 
@@ -54,7 +57,7 @@ public class ScheduleListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Schedule selectedSchedule = (Schedule)mListView.getAdapter().getItem(position);
+                Schedule selectedSchedule = (Schedule) mListView.getAdapter().getItem(position);
                 Intent myIntent = new Intent(ScheduleListActivity.this, ScheduleActivity.class);
                 myIntent.putExtra("schedule_id", selectedSchedule.getId());
                 startActivity(myIntent);
@@ -65,32 +68,11 @@ public class ScheduleListActivity extends AppCompatActivity {
 
         startService(new Intent(this, TimeService.class));
 
-        mListView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                Log.e("ListView", "OnTouch");
-                return false;
-            }
-        });
-
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getBaseContext(), "OnItemLongClickListener", Toast.LENGTH_SHORT).show();
+                ((SwipeLayout) (mListView.getChildAt(position - mListView.getFirstVisiblePosition()))).open(true);
                 return true;
-            }
-        });
-
-        mListView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(TAG, "onItemSelected:" + position);
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                Log.e(TAG, "onNothingSelected:");
             }
         });
 
@@ -211,7 +193,48 @@ public class ScheduleListActivity extends AppCompatActivity {
         }
 
         private void actionDelete(int position) {
-            this.remove(this.getItem(position));
+            deleteScheduleToServer(position, this.getItem(position));
+        }
+    }
+
+    private void deleteScheduleToServer(int position, Schedule schedule){
+        this.setProgressBarIndeterminateVisibility(true);
+
+        ScheduleDeleteRequest request = new ScheduleDeleteRequest(schedule);
+        String lastRequestCacheKey = request.createCacheKey();
+
+        spiceManager.execute(request, lastRequestCacheKey, DurationInMillis.ONE_MINUTE, new DeleteScheduleListener(position, schedule));
+    }
+
+    private class DeleteScheduleListener implements RequestListener<ScheduleResponse> {
+
+        private int mPosision;
+        private Schedule mSchedule;
+
+        public DeleteScheduleListener(int position, Schedule schedule){
+            mPosision = position;
+            mSchedule = schedule;
+        }
+
+        @Override
+        public void onRequestFailure(SpiceException spiceException) {
+            //update your UI
+            Log.e(TAG, spiceException.getMessage());
+            Toast.makeText(getBaseContext(), spiceException.getMessage(), Toast.LENGTH_SHORT).show();
+            ScheduleListAdapter lvAdapter = (ScheduleListAdapter) mListView.getAdapter();
+        }
+
+        @Override
+        public void onRequestSuccess(ScheduleResponse scheduleResponse) {
+            //update your UI
+            Log.d(TAG, scheduleResponse.toString());
+            ScheduleListAdapter lvAdapter = (ScheduleListAdapter) mListView.getAdapter();
+
+            if (scheduleResponse.isSuccess()) {
+                lvAdapter.remove(lvAdapter.getItem(mPosision));
+            } else {
+                Toast.makeText(getBaseContext(), scheduleResponse.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

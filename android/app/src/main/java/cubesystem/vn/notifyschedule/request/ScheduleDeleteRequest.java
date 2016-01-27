@@ -43,6 +43,6 @@ public class ScheduleDeleteRequest  extends SpringAndroidSpiceRequest<ScheduleRe
      * @return
      */
     public String createCacheKey() {
-        return "schedule_create";
+        return "schedule_delete_" + mSchedule.getId();
     }
 }
