@@ -101,6 +101,12 @@ public class ScheduleActivity extends AppCompatActivity {
         super.onStop();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
     private void updateState(State s){
         mState = s;
         Button btnSave = (Button) findViewById(R.id.btnSave);

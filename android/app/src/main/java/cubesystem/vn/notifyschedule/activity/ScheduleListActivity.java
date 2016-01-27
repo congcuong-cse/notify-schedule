@@ -60,7 +60,7 @@ public class ScheduleListActivity extends AppCompatActivity {
                 Schedule selectedSchedule = (Schedule) mListView.getAdapter().getItem(position);
                 Intent myIntent = new Intent(ScheduleListActivity.this, ScheduleActivity.class);
                 myIntent.putExtra("schedule_id", selectedSchedule.getId());
-                startActivity(myIntent);
+                startActivityForResult(myIntent, 1);
 
                 //((SwipeLayout) (mListView.getChildAt(position - mListView.getFirstVisiblePosition()))).open(true);
             }
@@ -81,7 +81,7 @@ public class ScheduleListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent myIntent = new Intent(ScheduleListActivity.this, ScheduleActivity.class);
-                startActivity(myIntent);
+                startActivityForResult(myIntent, 0);
             }
         });
     }
@@ -102,6 +102,12 @@ public class ScheduleListActivity extends AppCompatActivity {
     protected void onStop() {
         spiceManager.shouldStop();
         super.onStop();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        performRequest();
     }
 
     @Override
