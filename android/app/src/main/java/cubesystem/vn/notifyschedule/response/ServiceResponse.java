@@ -43,4 +43,10 @@ public class ServiceResponse<T> {
     public void setSuccess(boolean success) {
         this.success = success;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s { success: %s, code: %s, message: %s, data: %s}",
+                this.getClass().getSimpleName(), this.isSuccess(), this.getCode(), this.getMessage(), this.getData().toString());
+    }
 }

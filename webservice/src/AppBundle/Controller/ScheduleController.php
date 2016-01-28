@@ -101,9 +101,15 @@ class ScheduleController extends Controller
         if ($request->request->get("start_time") != null) {
             $schedule->setStartTime(new \DateTime($request->request->get("start_time")));
         }
+        else{
+            $schedule->setStartTime(null);
+        }
         
         if ($request->request->get("end_time") != null) {
             $schedule->setEndTime(new \DateTime($request->request->get("end_time")));
+        }
+        else{
+            $schedule->setEndTime(null);
         }
         
         $schedule->setMessage($request->request->get("message"));

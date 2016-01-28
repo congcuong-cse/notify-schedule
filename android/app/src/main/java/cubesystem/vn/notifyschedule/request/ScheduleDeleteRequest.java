@@ -8,16 +8,17 @@ import org.springframework.http.MediaType;
 import org.springframework.util.MultiValueMap;
 
 import cubesystem.vn.notifyschedule.model.Schedule;
+import cubesystem.vn.notifyschedule.model.Setting;
 import cubesystem.vn.notifyschedule.response.ScheduleResponse;
 
 /**
  * Created by congcuong on 2016/01/22.
  */
-public class ScheduleDeleteRequest  extends SpringAndroidSpiceRequest<ScheduleResponse> {
+public class ScheduleDeleteRequest extends SpringAndroidSpiceRequest<ScheduleResponse> {
 
     private Schedule mSchedule;
 
-    public ScheduleDeleteRequest(Schedule schedule){
+    public ScheduleDeleteRequest(Schedule schedule) {
         super(ScheduleResponse.class);
 
         mSchedule = schedule;
@@ -26,7 +27,7 @@ public class ScheduleDeleteRequest  extends SpringAndroidSpiceRequest<ScheduleRe
     @Override
     public ScheduleResponse loadDataFromNetwork() throws Exception {
 
-        String url = ServiceRequestConstrant.hostAppendSub("/schedule/delete/" + mSchedule.getId());
+        String url = Setting.hostAppendSub("/schedule/delete/" + mSchedule.getId());
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -34,15 +35,5 @@ public class ScheduleDeleteRequest  extends SpringAndroidSpiceRequest<ScheduleRe
                 new HttpEntity<MultiValueMap<String, String>>(null, headers);
 
         return getRestTemplate().postForObject(url, request, ScheduleResponse.class);
-    }
-
-    /**
-     * This method generates a unique cache key for this request.
-     * In this case our cache key depends just on the keyword.
-     *
-     * @return
-     */
-    public String createCacheKey() {
-        return "schedule_delete_" + mSchedule.getId();
     }
 }

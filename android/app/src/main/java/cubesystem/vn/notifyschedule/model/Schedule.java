@@ -2,12 +2,13 @@ package cubesystem.vn.notifyschedule.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.ObjectWriter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import java.io.IOException;
 import java.util.Calendar;
-
-import cubesystem.vn.notifyschedule.view.TimePreference;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -97,5 +98,8 @@ public class Schedule {
         return parameters;
     }
 
-
+    @Override
+    public String toString() {
+        return String.format("%s #%d", this.getClass().getSimpleName(), this.getId());
+    }
 }

@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -31,7 +30,6 @@ import cubesystem.vn.notifyschedule.model.Schedule;
 import cubesystem.vn.notifyschedule.model.ScheduleList;
 import cubesystem.vn.notifyschedule.request.ScheduleAllRequest;
 import cubesystem.vn.notifyschedule.request.ScheduleDeleteRequest;
-import cubesystem.vn.notifyschedule.request.ScheduleEditRequest;
 import cubesystem.vn.notifyschedule.response.ScheduleAllResponse;
 import cubesystem.vn.notifyschedule.response.ScheduleResponse;
 import cubesystem.vn.notifyschedule.service.JsonSpiceService;
@@ -60,9 +58,8 @@ public class ScheduleListActivity extends AppCompatActivity {
                 Schedule selectedSchedule = (Schedule) mListView.getAdapter().getItem(position);
                 Intent myIntent = new Intent(ScheduleListActivity.this, ScheduleActivity.class);
                 myIntent.putExtra("schedule_id", selectedSchedule.getId());
-                startActivityForResult(myIntent, 1);
+                startActivity(myIntent);
 
-                //((SwipeLayout) (mListView.getChildAt(position - mListView.getFirstVisiblePosition()))).open(true);
             }
         });
 
@@ -81,7 +78,7 @@ public class ScheduleListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent myIntent = new Intent(ScheduleListActivity.this, ScheduleActivity.class);
-                startActivityForResult(myIntent, 0);
+                startActivity(myIntent);
             }
         });
     }
@@ -102,12 +99,6 @@ public class ScheduleListActivity extends AppCompatActivity {
     protected void onStop() {
         spiceManager.shouldStop();
         super.onStop();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        performRequest();
     }
 
     @Override
@@ -135,9 +126,8 @@ public class ScheduleListActivity extends AppCompatActivity {
         ScheduleListActivity.this.setProgressBarIndeterminateVisibility(true);
 
         ScheduleAllRequest request = new ScheduleAllRequest();
-        String lastRequestCacheKey = request.createCacheKey();
 
-        spiceManager.execute(request, lastRequestCacheKey, DurationInMillis.ONE_MINUTE, new ListScheduleRequestListener());
+        spiceManager.execute(request, new ListScheduleRequestListener());
     }
 
     //inner class of your spiced Activity
@@ -203,13 +193,12 @@ public class ScheduleListActivity extends AppCompatActivity {
         }
     }
 
-    private void deleteScheduleToServer(int position, Schedule schedule){
+    private void deleteScheduleToServer(int position, Schedule schedule) {
         this.setProgressBarIndeterminateVisibility(true);
 
         ScheduleDeleteRequest request = new ScheduleDeleteRequest(schedule);
-        String lastRequestCacheKey = request.createCacheKey();
 
-        spiceManager.execute(request, lastRequestCacheKey, DurationInMillis.ONE_MINUTE, new DeleteScheduleListener(position, schedule));
+        spiceManager.execute(request, new DeleteScheduleListener(position, schedule));
     }
 
     private class DeleteScheduleListener implements RequestListener<ScheduleResponse> {
@@ -217,7 +206,7 @@ public class ScheduleListActivity extends AppCompatActivity {
         private int mPosision;
         private Schedule mSchedule;
 
-        public DeleteScheduleListener(int position, Schedule schedule){
+        public DeleteScheduleListener(int position, Schedule schedule) {
             mPosision = position;
             mSchedule = schedule;
         }

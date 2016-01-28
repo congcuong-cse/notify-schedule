@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.util.MultiValueMap;
 
 import cubesystem.vn.notifyschedule.model.Schedule;
+import cubesystem.vn.notifyschedule.model.Setting;
 import cubesystem.vn.notifyschedule.response.ScheduleResponse;
 
 /**
@@ -17,7 +18,7 @@ public class ScheduleEditRequest extends SpringAndroidSpiceRequest<ScheduleRespo
 
     private Schedule mSchedule;
 
-    public ScheduleEditRequest(Schedule schedule){
+    public ScheduleEditRequest(Schedule schedule) {
         super(ScheduleResponse.class);
 
         mSchedule = schedule;
@@ -26,7 +27,7 @@ public class ScheduleEditRequest extends SpringAndroidSpiceRequest<ScheduleRespo
     @Override
     public ScheduleResponse loadDataFromNetwork() throws Exception {
 
-        String url = ServiceRequestConstrant.hostAppendSub("/schedule/edit/" + mSchedule.getId());
+        String url = Setting.hostAppendSub("/schedule/edit/" + mSchedule.getId());
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -34,15 +35,5 @@ public class ScheduleEditRequest extends SpringAndroidSpiceRequest<ScheduleRespo
                 new HttpEntity<MultiValueMap<String, String>>(mSchedule.requestParameters(), headers);
 
         return getRestTemplate().postForObject(url, request, ScheduleResponse.class);
-    }
-
-    /**
-     * This method generates a unique cache key for this request.
-     * In this case our cache key depends just on the keyword.
-     *
-     * @return
-     */
-    public String createCacheKey() {
-        return "schedule_edit_" + mSchedule.getId() ;
     }
 }

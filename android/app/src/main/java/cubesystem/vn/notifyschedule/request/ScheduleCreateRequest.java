@@ -5,10 +5,10 @@ import com.octo.android.robospice.request.springandroid.SpringAndroidSpiceReques
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import cubesystem.vn.notifyschedule.model.Schedule;
+import cubesystem.vn.notifyschedule.model.Setting;
 import cubesystem.vn.notifyschedule.response.ScheduleResponse;
 
 /**
@@ -18,7 +18,7 @@ public class ScheduleCreateRequest extends SpringAndroidSpiceRequest<ScheduleRes
 
     private Schedule mSchedule;
 
-    public ScheduleCreateRequest(Schedule schedule){
+    public ScheduleCreateRequest(Schedule schedule) {
         super(ScheduleResponse.class);
 
         mSchedule = schedule;
@@ -27,7 +27,7 @@ public class ScheduleCreateRequest extends SpringAndroidSpiceRequest<ScheduleRes
     @Override
     public ScheduleResponse loadDataFromNetwork() throws Exception {
 
-        String url = ServiceRequestConstrant.hostAppendSub("/schedule/create");
+        String url = Setting.hostAppendSub("/schedule/create");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -35,15 +35,5 @@ public class ScheduleCreateRequest extends SpringAndroidSpiceRequest<ScheduleRes
                 new HttpEntity<MultiValueMap<String, String>>(mSchedule.requestParameters(), headers);
 
         return getRestTemplate().postForObject(url, request, ScheduleResponse.class);
-    }
-
-    /**
-     * This method generates a unique cache key for this request.
-     * In this case our cache key depends just on the keyword.
-     *
-     * @return
-     */
-    public String createCacheKey() {
-        return "schedule_create";
     }
 }

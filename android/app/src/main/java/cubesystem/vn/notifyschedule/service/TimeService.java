@@ -30,6 +30,8 @@ import java.util.TimerTask;
 import cubesystem.vn.notifyschedule.R;
 import cubesystem.vn.notifyschedule.activity.ScheduleListActivity;
 import cubesystem.vn.notifyschedule.model.Schedule;
+import cubesystem.vn.notifyschedule.model.ScheduleList;
+import cubesystem.vn.notifyschedule.model.Setting;
 import cubesystem.vn.notifyschedule.request.ScheduleAllRequest;
 import cubesystem.vn.notifyschedule.response.ScheduleAllResponse;
 
@@ -38,13 +40,12 @@ public class TimeService extends Service {
 
     private SpiceManager spiceManager;
 
-    // constant
-    public static final long NOTIFY_INTERVAL = 60 * 1000; // 60 seconds
-
     // run on another Thread to avoid crash
     private Handler mHandler = new Handler();
     // timer handling
     private Timer mTimer = null;
+
+    private ScheduleList mScheduleList;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -70,15 +71,14 @@ public class TimeService extends Service {
             mTimer = new Timer();
         }
         // schedule task
-        mTimer.scheduleAtFixedRate(new TimeDisplayTimerTask(), 0, NOTIFY_INTERVAL);
+        mTimer.scheduleAtFixedRate(new TimeDisplayTimerTask(), 0, Setting.NOTIFY_INTERVAL());
     }
 
     private void performRequest() {
 
         ScheduleAllRequest request = new ScheduleAllRequest();
-        String lastRequestCacheKey = request.createCacheKey();
 
-        spiceManager.execute(request, lastRequestCacheKey, DurationInMillis.ONE_MINUTE, new RequestListener<ScheduleAllResponse>() {
+        spiceManager.execute(request, new RequestListener<ScheduleAllResponse>() {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
                 Log.e(TAG, spiceException.getMessage());
@@ -90,15 +90,20 @@ public class TimeService extends Service {
                 Log.d(TAG, scheduleAllResponse.toString());
 
                 if (scheduleAllResponse.isSuccess()) {
-                    ArrayList<String> messArr = new ArrayList<>();
+                    mScheduleList = scheduleAllResponse.getData();
+                } else {
+                    Log.e(TAG, "ScheduleAllReponse: " + scheduleAllResponse.getMessage());
+                    //Toast.makeText(getBaseContext(), scheduleAllResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                }
 
+                if (mScheduleList != null){
                     Calendar now = Calendar.getInstance();
 
                     NotificationManager notificationManager =
                             (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                     notificationManager.cancelAll();
 
-                    for (Schedule shSchedule : scheduleAllResponse.getData()) {
+                    for (Schedule shSchedule : mScheduleList) {
 
                         String remaining = shSchedule.timeRemaining(now);
                         if (remaining != null) {
@@ -123,10 +128,7 @@ public class TimeService extends Service {
                             notificationManager.notify(shSchedule.getId(), builder.getNotification());
                         }
 
-
                     }
-                } else {
-                    Toast.makeText(getBaseContext(), scheduleAllResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
             }

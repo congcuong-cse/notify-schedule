@@ -121,7 +121,7 @@
                 android:id="@+id/btnSave"
                 android:layout_weight="1"
                 android:layout_gravity="center"
-                android:backgroundTint="#477dfd"
+                android:background="#477dfd"
                 android:textColor="#ffffff" />
 
             <LinearLayout

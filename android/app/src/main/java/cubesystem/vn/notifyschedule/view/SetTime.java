@@ -11,23 +11,23 @@ import java.util.Calendar;
 
 public class SetTime implements View.OnTouchListener, View.OnClickListener, View.OnFocusChangeListener, TimePickerDialog.OnTimeSetListener {
 
-   private EditText editText;
-   private Calendar myCalendar;
-   private Context ctx;
-   private boolean isShow;
+    private EditText editText;
+    private Calendar myCalendar;
+    private Context ctx;
+    private boolean isShow;
 
-   public SetTime(EditText editText, Context ctx){
-       this.editText = editText;
-       this.editText.setOnFocusChangeListener(this);
-       this.editText.setOnTouchListener(this);
-       this.editText.setOnClickListener(this);
-       this.myCalendar = Calendar.getInstance();
-       this.ctx = ctx;
-       this.isShow = false;
-   }
+    public SetTime(EditText editText, Context ctx) {
+        this.editText = editText;
+        this.editText.setOnFocusChangeListener(this);
+        this.editText.setOnTouchListener(this);
+        this.editText.setOnClickListener(this);
+        this.myCalendar = Calendar.getInstance();
+        this.ctx = ctx;
+        this.isShow = false;
+    }
 
-    private void update(){
-        if (!isShow){
+    private void update() {
+        if (!isShow) {
             int hour;
             int minute;
             try {
@@ -35,8 +35,7 @@ public class SetTime implements View.OnTouchListener, View.OnClickListener, View
                 String[] pieces = text.split(":");
                 hour = Integer.parseInt(pieces[0]);
                 minute = Integer.parseInt(pieces[1]);
-            }
-            catch (Exception e){
+            } catch (Exception e) {
                 hour = myCalendar.get(Calendar.HOUR_OF_DAY);
                 minute = myCalendar.get(Calendar.MINUTE);
             }
@@ -49,7 +48,7 @@ public class SetTime implements View.OnTouchListener, View.OnClickListener, View
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         // TODO Auto-generated method stub
-        if(hasFocus){
+        if (hasFocus) {
             update();
         }
     }
