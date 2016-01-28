@@ -1,6 +1,5 @@
 package cubesystem.vn.notifyschedule.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,7 +10,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.octo.android.robospice.SpiceManager;
-import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
@@ -36,6 +34,8 @@ public class ScheduleActivity extends AppCompatActivity {
     private EditText editTextFrom;
     private EditText editTextTo;
     private EditText editTextMessage;
+    private SetTime fromTime;
+    private SetTime toTime;
 
     enum State {
         CREATE,
@@ -55,8 +55,35 @@ public class ScheduleActivity extends AppCompatActivity {
         editTextTo = (EditText) findViewById(R.id.editTextTo);
         editTextMessage = (EditText) findViewById(R.id.editTextMessage);
 
-        SetTime fromTime = new SetTime(editTextFrom, this);
-        SetTime toTime = new SetTime(editTextTo, this);
+        fromTime = new SetTime(editTextFrom, this);
+        toTime = new SetTime(editTextTo, this);
+
+        fromTime.setOnChangeListener(new SetTime.OnChangeListener() {
+            @Override
+            public void onChange(int newSeconds) {
+                editTextFrom.setError(null);
+                if (newSeconds < toTime.getSeconds()){
+                    editTextTo.setError(null);
+                }
+                else {
+                    editTextTo.setError(getString(R.string.error_endtime_should_greater_than_starttime));
+                }
+            }
+        });
+
+        toTime.setOnChangeListener(new SetTime.OnChangeListener() {
+            @Override
+            public void onChange(int newSeconds) {
+                editTextTo.setError(null);
+                if (newSeconds > fromTime.getSeconds()){
+                    editTextFrom.setError(null);
+                }
+                else {
+                    editTextFrom.setError(getString(R.string.error_starttime_should_less_than_endtime));
+                }
+            }
+        });
+
 
         int schedule_id = -1;
         Bundle extras = getIntent().getExtras();
@@ -165,33 +192,28 @@ public class ScheduleActivity extends AppCompatActivity {
             editTextTo.setError(null);
             editTextMessage.setError(null);
 
-            if (editTextFrom.getText().toString().trim().isEmpty()) {
-                editTextFrom.setError("This value should not be blank");
+            if (fromTime.getSeconds() < 0) {
+                editTextFrom.setError(getString(R.string.error_should_not_blank));
                 isValid = false;
             }
 
-            if (editTextTo.getText().toString().trim().isEmpty()) {
-                editTextTo.setError("This value should not be blank");
+            if (toTime.getSeconds() < 0) {
+                editTextTo.setError(getString(R.string.error_should_not_blank));
                 isValid = false;
             }
 
             if (isValid) {
-                String from = editTextFrom.getText().toString();
-                String to = editTextTo.getText().toString();
 
-                int startTime = Schedule.getHour(from) * 3600 + Schedule.getMinute(from) * 60;
-                int endTime = Schedule.getHour(to) * 3600 + Schedule.getMinute(to) * 60;
-
-                if (startTime >= endTime) {
-                    editTextFrom.setError("start_time should less than end_time");
-                    editTextTo.setError("end_time should greater than start_time");
+                if (fromTime.getSeconds() >= toTime.getSeconds()) {
+                    editTextFrom.setError(getString(R.string.error_starttime_should_less_than_endtime));
+                    editTextTo.setError(getString(R.string.error_endtime_should_greater_than_starttime));
                     isValid = false;
                 }
             }
 
 
             if (editTextMessage.getText().toString().trim().isEmpty()) {
-                editTextMessage.setError("This value should not be blank");
+                editTextMessage.setError(getString(R.string.error_should_not_blank));
                 isValid = false;
             }
 

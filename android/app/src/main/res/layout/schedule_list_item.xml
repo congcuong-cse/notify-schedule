@@ -22,7 +22,9 @@
             android:background="#ff0000"
             android:paddingLeft="25dp"
             android:paddingRight="25dp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:tint="#ffffff"
+            android:backgroundTint="#ff0000" />
     </LinearLayout>
 
     <LinearLayout

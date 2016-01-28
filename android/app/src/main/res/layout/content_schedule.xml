@@ -32,7 +32,8 @@
                 android:id="@+id/textViewFrom"
                 android:layout_weight="2"
                 android:layout_gravity="center_vertical"
-                android:gravity="right" />
+                android:gravity="right"
+                android:textColor="@android:color/black" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -62,7 +63,8 @@
                 android:id="@+id/textViewTo"
                 android:layout_weight="2"
                 android:layout_gravity="center_vertical"
-                android:gravity="right" />
+                android:gravity="right"
+                android:textColor="@android:color/black" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -89,7 +91,8 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="メッセージ内容"
-                android:id="@+id/textView" />
+                android:id="@+id/textView"
+                android:textColor="@android:color/black" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -97,7 +100,8 @@
                 android:id="@+id/editTextMessage"
                 android:layout_marginTop="10dp"
                 android:hint="メッセージ"
-                android:gravity="left|top" />
+                android:gravity="left|top"
+                android:background="#f8f3f3" />
         </LinearLayout>
 
         <LinearLayout
@@ -122,7 +126,8 @@
                 android:layout_weight="1"
                 android:layout_gravity="center"
                 android:background="#477dfd"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:textSize="27dp" />
 
             <LinearLayout
                 android:orientation="vertical"

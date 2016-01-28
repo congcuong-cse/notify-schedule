@@ -28,6 +28,10 @@ class Schedule implements JsonSerializable
      *
      * @ORM\Column(name="start_time", type="time")
 	 * @Assert\NotBlank()
+	 * @Assert\Expression(
+     *     "this.getStartTime() < this.getEndTime()",
+     *     message="Start time should be less than end time"
+     * )
      */
     private $startTime;
 
@@ -36,6 +40,10 @@ class Schedule implements JsonSerializable
      *
      * @ORM\Column(name="end_time", type="time")
 	 * @Assert\NotBlank()
+	 * @Assert\Expression(
+     *     "this.getEndTime() > this.getStartTime()",
+     *     message="End time should be greater than start time"
+     * )
      */
     private $endTime;
 

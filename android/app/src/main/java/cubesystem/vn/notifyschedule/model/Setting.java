@@ -5,7 +5,7 @@ package cubesystem.vn.notifyschedule.model;
  */
 public class Setting {
     public static String host() {
-        return "http://192.168.11.29:8000";
+        return "http://192.168.1.226:8000";
     }
 
     public static String hostAppendSub(String subUrl) {
@@ -14,6 +14,10 @@ public class Setting {
 
     // constant
     public static long NOTIFY_INTERVAL() {
-        return  5 * 1000; // 60 seconds
+        return  60 * 1000; // 60 seconds
+    }
+
+    public static int TIME_OUT() {
+        return 5000; // 5 seconds
     }
 }

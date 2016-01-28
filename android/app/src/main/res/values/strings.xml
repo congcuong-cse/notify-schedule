@@ -4,6 +4,11 @@
     <string name="action_settings">設定</string>
     <string name="title_activity_schedule_create">登録</string>
     <string name="title_activity_schedule_update">修正</string>
+    <string name="action_reload">リロード</string>
+    <string name="action_create">登録</string>
     <string name="create">登録</string>
     <string name="update">修正</string>
+    <string name="error_should_not_blank">This value should not be blank</string>
+    <string name="error_starttime_should_less_than_endtime">Start time should be less than end time</string>
+    <string name="error_endtime_should_greater_than_starttime">End time should be greater than start time</string>
 </resources>

@@ -14,7 +14,20 @@ public class SetTime implements View.OnTouchListener, View.OnClickListener, View
     private EditText editText;
     private Calendar myCalendar;
     private Context ctx;
-    private boolean isShow;
+    private boolean isTimePickerShow;
+    private OnChangeListener mOnChangeListener;
+
+    public interface OnChangeListener{
+
+        void onChange (int newSeconds);
+
+    }
+
+
+
+    public void setOnChangeListener(OnChangeListener onChangeListener){
+        mOnChangeListener = onChangeListener;
+    }
 
     public SetTime(EditText editText, Context ctx) {
         this.editText = editText;
@@ -23,11 +36,25 @@ public class SetTime implements View.OnTouchListener, View.OnClickListener, View
         this.editText.setOnClickListener(this);
         this.myCalendar = Calendar.getInstance();
         this.ctx = ctx;
-        this.isShow = false;
+        this.isTimePickerShow = false;
+    }
+
+    public int getSeconds(){
+        int hour;
+        int minute;
+        try {
+            String text = this.editText.getText().toString().trim();
+            String[] pieces = text.split(":");
+            hour = Integer.parseInt(pieces[0]);
+            minute = Integer.parseInt(pieces[1]);
+            return hour * 3600 + minute * 60;
+        } catch (Exception e) {
+            return -1;
+        }
     }
 
     private void update() {
-        if (!isShow) {
+        if (!isTimePickerShow) {
             int hour;
             int minute;
             try {
@@ -40,7 +67,7 @@ public class SetTime implements View.OnTouchListener, View.OnClickListener, View
                 minute = myCalendar.get(Calendar.MINUTE);
             }
             new TimePickerDialog(ctx, this, hour, minute, true).show();
-            this.isShow = true;
+            this.isTimePickerShow = true;
         }
 
     }
@@ -57,7 +84,13 @@ public class SetTime implements View.OnTouchListener, View.OnClickListener, View
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         // TODO Auto-generated method stub
         this.editText.setText(String.format("%02d:%02d", hourOfDay, minute));
-        this.isShow = false;
+        this.isTimePickerShow = false;
+
+        int seconds = hourOfDay*3600 + minute*60;
+
+        if (mOnChangeListener != null){
+            mOnChangeListener.onChange(seconds);
+        }
     }
 
     @Override
