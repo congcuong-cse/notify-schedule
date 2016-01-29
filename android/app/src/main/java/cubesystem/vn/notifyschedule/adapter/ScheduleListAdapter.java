@@ -16,13 +16,13 @@ import cubesystem.vn.notifyschedule.model.ScheduleList;
 
 public class ScheduleListAdapter extends ArrayAdapter<Schedule> {
 
-        public interface ScheduleListAdapterEventHander{
+        public interface ScheduleListAdapterEventHandler {
             void onDeleteCell(ScheduleListAdapter scheduleListAdapter, int position);
         }
-        protected ScheduleListAdapterEventHander mEventHandle;
+        protected ScheduleListAdapterEventHandler mEventHandler;
 
-        public void setEventHandle(ScheduleListAdapterEventHander eventHandle){
-            mEventHandle = eventHandle;
+        public void setEventHandle(ScheduleListAdapterEventHandler eventHandle){
+            mEventHandler = eventHandle;
         }
 
         public ScheduleListAdapter(Context context, int resource, ScheduleList scheduleList) {
@@ -45,8 +45,8 @@ public class ScheduleListAdapter extends ArrayAdapter<Schedule> {
             ivDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mEventHandle != null){
-                        mEventHandle.onDeleteCell(ScheduleListAdapter.this, position);
+                    if (mEventHandler != null){
+                        mEventHandler.onDeleteCell(ScheduleListAdapter.this, position);
                     }
                 }
             });

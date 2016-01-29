@@ -9,21 +9,15 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daimajia.swipe.SwipeLayout;
 import com.octo.android.robospice.SpiceManager;
-import com.octo.android.robospice.persistence.DurationInMillis;
 import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
@@ -38,7 +32,7 @@ import cubesystem.vn.notifyschedule.response.ScheduleResponse;
 import cubesystem.vn.notifyschedule.service.JsonSpiceService;
 import cubesystem.vn.notifyschedule.service.TimeService;
 
-public class ScheduleListActivity extends AppCompatActivity implements ScheduleListAdapter.ScheduleListAdapterEventHander {
+public class ScheduleListActivity extends AppCompatActivity implements ScheduleListAdapter.ScheduleListAdapterEventHandler {
 
     final static String TAG = "ScheduleListActivity";
 

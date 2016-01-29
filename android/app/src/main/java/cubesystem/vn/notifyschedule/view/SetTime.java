@@ -15,18 +15,19 @@ public class SetTime implements View.OnTouchListener, View.OnClickListener, View
     private Calendar myCalendar;
     private Context ctx;
     private boolean isTimePickerShow;
-    private OnChangeListener mOnChangeListener;
+    private SetTimeEventHandler mSetTimeEventHandler;
 
-    public interface OnChangeListener{
+    public interface SetTimeEventHandler {
 
         void onChange (int newSeconds);
+        void onCreateTimePickerDialog(TimePickerDialog timePickerDialog);
 
     }
 
 
 
-    public void setOnChangeListener(OnChangeListener onChangeListener){
-        mOnChangeListener = onChangeListener;
+    public void setOnChangeListener(SetTimeEventHandler setTimeEventHandler){
+        mSetTimeEventHandler = setTimeEventHandler;
     }
 
     public SetTime(EditText editText, Context ctx) {
@@ -66,7 +67,14 @@ public class SetTime implements View.OnTouchListener, View.OnClickListener, View
                 hour = myCalendar.get(Calendar.HOUR_OF_DAY);
                 minute = myCalendar.get(Calendar.MINUTE);
             }
-            new TimePickerDialog(ctx, this, hour, minute, true).show();
+
+            TimePickerDialog timePickerDialog = new TimePickerDialog(ctx, this, hour, minute, true);
+            if (mSetTimeEventHandler != null){
+                mSetTimeEventHandler.onCreateTimePickerDialog(timePickerDialog);
+            }
+
+            timePickerDialog.show();
+
             this.isTimePickerShow = true;
         }
 
@@ -88,8 +96,8 @@ public class SetTime implements View.OnTouchListener, View.OnClickListener, View
 
         int seconds = hourOfDay*3600 + minute*60;
 
-        if (mOnChangeListener != null){
-            mOnChangeListener.onChange(seconds);
+        if (mSetTimeEventHandler != null){
+            mSetTimeEventHandler.onChange(seconds);
         }
     }
 

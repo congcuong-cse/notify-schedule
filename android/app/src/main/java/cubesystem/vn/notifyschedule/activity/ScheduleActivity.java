@@ -1,5 +1,6 @@
 package cubesystem.vn.notifyschedule.activity;
 
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -65,7 +66,7 @@ public class ScheduleActivity extends AppCompatActivity {
         fromTime = new SetTime(editTextFrom, this);
         toTime = new SetTime(editTextTo, this);
 
-        fromTime.setOnChangeListener(new SetTime.OnChangeListener() {
+        fromTime.setOnChangeListener(new SetTime.SetTimeEventHandler() {
             @Override
             public void onChange(int newSeconds) {
                 textInputLayoutFrom.setError(null);
@@ -79,9 +80,15 @@ public class ScheduleActivity extends AppCompatActivity {
                     textInputLayoutTo.setErrorEnabled(true);
                 }
             }
+
+            @Override
+            public void onCreateTimePickerDialog(TimePickerDialog timePickerDialog) {
+                timePickerDialog.setTitle("From time");
+                timePickerDialog.setButton(TimePickerDialog.BUTTON_POSITIVE, "OK", timePickerDialog);
+            }
         });
 
-        toTime.setOnChangeListener(new SetTime.OnChangeListener() {
+        toTime.setOnChangeListener(new SetTime.SetTimeEventHandler() {
             @Override
             public void onChange(int newSeconds) {
                 textInputLayoutTo.setError(null);
@@ -94,6 +101,12 @@ public class ScheduleActivity extends AppCompatActivity {
                     textInputLayoutFrom.setError(getString(R.string.error_starttime_should_less_than_endtime));
                     textInputLayoutFrom.setErrorEnabled(true);
                 }
+            }
+
+            @Override
+            public void onCreateTimePickerDialog(TimePickerDialog timePickerDialog) {
+                timePickerDialog.setTitle("To time");
+                timePickerDialog.setButton(TimePickerDialog.BUTTON_POSITIVE, "OK", timePickerDialog);
             }
         });
 
