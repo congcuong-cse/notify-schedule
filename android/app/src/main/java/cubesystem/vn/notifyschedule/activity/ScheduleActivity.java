@@ -1,6 +1,7 @@
 package cubesystem.vn.notifyschedule.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -28,9 +29,11 @@ public class ScheduleActivity extends AppCompatActivity {
 
     protected SpiceManager spiceManager = new SpiceManager(JsonSpiceService.class);
     private Schedule mSchedule = new Schedule();
-    ;
     private State mState = State.CREATE;
 
+    private TextInputLayout textInputLayoutFrom;
+    private TextInputLayout textInputLayoutTo;
+    private TextInputLayout textInputLayoutMessage;
     private EditText editTextFrom;
     private EditText editTextTo;
     private EditText editTextMessage;
@@ -51,6 +54,10 @@ public class ScheduleActivity extends AppCompatActivity {
         Button btnSave = (Button) findViewById(R.id.btnSave);
         btnSave.setOnClickListener(new BtnSaveClickListener());
 
+        textInputLayoutFrom = (TextInputLayout) findViewById(R.id.textInputLayoutFrom);
+        textInputLayoutTo = (TextInputLayout) findViewById(R.id.textInputLayoutTo);
+        textInputLayoutMessage = (TextInputLayout) findViewById(R.id.textInputLayoutMessage);
+
         editTextFrom = (EditText) findViewById(R.id.editTextFrom);
         editTextTo = (EditText) findViewById(R.id.editTextTo);
         editTextMessage = (EditText) findViewById(R.id.editTextMessage);
@@ -61,12 +68,15 @@ public class ScheduleActivity extends AppCompatActivity {
         fromTime.setOnChangeListener(new SetTime.OnChangeListener() {
             @Override
             public void onChange(int newSeconds) {
-                editTextFrom.setError(null);
+                textInputLayoutFrom.setError(null);
+                textInputLayoutFrom.setErrorEnabled(false);
                 if (newSeconds < toTime.getSeconds()){
-                    editTextTo.setError(null);
+                    textInputLayoutTo.setError(null);
+                    textInputLayoutTo.setErrorEnabled(false);
                 }
                 else {
-                    editTextTo.setError(getString(R.string.error_endtime_should_greater_than_starttime));
+                    textInputLayoutTo.setError(getString(R.string.error_endtime_should_greater_than_starttime));
+                    textInputLayoutTo.setErrorEnabled(true);
                 }
             }
         });
@@ -74,12 +84,15 @@ public class ScheduleActivity extends AppCompatActivity {
         toTime.setOnChangeListener(new SetTime.OnChangeListener() {
             @Override
             public void onChange(int newSeconds) {
-                editTextTo.setError(null);
+                textInputLayoutTo.setError(null);
+                textInputLayoutTo.setErrorEnabled(false);
                 if (newSeconds > fromTime.getSeconds()){
-                    editTextFrom.setError(null);
+                    textInputLayoutFrom.setError(null);
+                    textInputLayoutFrom.setErrorEnabled(false);
                 }
                 else {
-                    editTextFrom.setError(getString(R.string.error_starttime_should_less_than_endtime));
+                    textInputLayoutFrom.setError(getString(R.string.error_starttime_should_less_than_endtime));
+                    textInputLayoutFrom.setErrorEnabled(true);
                 }
             }
         });
@@ -188,32 +201,40 @@ public class ScheduleActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             boolean isValid = true;
-            editTextFrom.setError(null);
-            editTextTo.setError(null);
-            editTextMessage.setError(null);
+            textInputLayoutFrom.setError(null);
+            textInputLayoutFrom.setErrorEnabled(false);
+            textInputLayoutTo.setError(null);
+            textInputLayoutTo.setErrorEnabled(false);
+            textInputLayoutMessage.setError(null);
+            textInputLayoutMessage.setErrorEnabled(false);
 
             if (fromTime.getSeconds() < 0) {
-                editTextFrom.setError(getString(R.string.error_should_not_blank));
+                textInputLayoutFrom.setError(getString(R.string.error_should_not_blank));
+                textInputLayoutFrom.setErrorEnabled(true);
                 isValid = false;
             }
 
             if (toTime.getSeconds() < 0) {
-                editTextTo.setError(getString(R.string.error_should_not_blank));
+                textInputLayoutTo.setError(getString(R.string.error_should_not_blank));
+                textInputLayoutTo.setErrorEnabled(true);
                 isValid = false;
             }
 
             if (isValid) {
 
                 if (fromTime.getSeconds() >= toTime.getSeconds()) {
-                    editTextFrom.setError(getString(R.string.error_starttime_should_less_than_endtime));
-                    editTextTo.setError(getString(R.string.error_endtime_should_greater_than_starttime));
+                    textInputLayoutFrom.setError(getString(R.string.error_starttime_should_less_than_endtime));
+                    textInputLayoutFrom.setErrorEnabled(true);
+                    textInputLayoutTo.setError(getString(R.string.error_endtime_should_greater_than_starttime));
+                    textInputLayoutTo.setErrorEnabled(true);
                     isValid = false;
                 }
             }
 
 
             if (editTextMessage.getText().toString().trim().isEmpty()) {
-                editTextMessage.setError(getString(R.string.error_should_not_blank));
+                textInputLayoutMessage.setError(getString(R.string.error_should_not_blank));
+                textInputLayoutMessage.setErrorEnabled(true);
                 isValid = false;
             }
 
