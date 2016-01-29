@@ -35,17 +35,25 @@
                 android:gravity="left"
                 android:textColor="@android:color/black" />
 
-            <EditText
+            <TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/editTextFrom"
+                android:id="@+id/textInputLayoutFrom"
                 android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:hint="00:00"
-                android:textColor="#033aff"
-                android:textSize="30dp"
-                android:inputType="none"
-                android:textIsSelectable="false"/>
+                android:layout_gravity="center_vertical" >
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/editTextFrom"
+                    android:hint="00:00"
+                    android:textColor="#033aff"
+                    android:textSize="30dp"
+                    android:inputType="none"
+                    android:textIsSelectable="false"/>
+
+            </TextInputLayout>
+
 
         </LinearLayout>
 
@@ -65,18 +73,23 @@
                 android:layout_gravity="center_vertical"
                 android:gravity="left"
                 android:textColor="@android:color/black" />
-
-            <EditText
+            <TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/editTextTo"
+                android:id="@+id/textInputLayoutTo"
                 android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:hint="23:59"
-                android:textColor="#03fd14"
-                android:textSize="30dp"
-                android:inputType="none"
-                android:textIsSelectable="false"/>
+                android:layout_gravity="center_vertical" >
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/editTextTo"
+                    android:hint="23:59"
+                    android:textColor="#03fd14"
+                    android:textSize="30dp"
+                    android:inputType="none"
+                    android:textIsSelectable="false"/>
+            </TextInputLayout>
+
 
         </LinearLayout>
 
@@ -93,15 +106,20 @@
                 android:text="メッセージ内容"
                 android:id="@+id/textView"
                 android:textColor="@android:color/black" />
-
-            <EditText
+            <TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
-                android:id="@+id/editTextMessage"
-                android:layout_marginTop="10dp"
-                android:hint="メッセージ"
-                android:gravity="left|top"
-                android:background="#f8f3f3" />
+                android:id="@+id/textInputLayoutMessage"
+                android:layout_marginTop="10dp" >
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/editTextMessage"
+                    android:hint="メッセージ"
+                    android:gravity="left|top"
+                    android:background="#f8f3f3" />
+            </TextInputLayout>
+
         </LinearLayout>
 
         <LinearLayout

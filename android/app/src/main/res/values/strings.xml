@@ -8,10 +8,10 @@
     <string name="action_create">登録</string>
     <string name="create">登録</string>
     <string name="update">修正</string>
-    <string name="error_should_not_blank">This value should not be blank</string>
-    <string name="error_starttime_should_less_than_endtime">Start time should be less than end time</string>
-    <string name="error_endtime_should_greater_than_starttime">End time should be greater than start time</string>
-    <string name="message_delete">Ban co muon delete khong?</string>
-    <string name="yes">YES</string>
-    <string name="no">NO</string>
+    <string name="error_should_not_blank">必須な項目です。</string>
+    <string name="error_starttime_should_less_than_endtime">開始時間は終了時間より小さいです。</string>
+    <string name="error_endtime_should_greater_than_starttime">終了時間は開始時間より大きいです。</string>
+    <string name="message_delete">削除しますか。</string>
+    <string name="yes">はい</string>
+    <string name="no">いいえ</string>
 </resources>
