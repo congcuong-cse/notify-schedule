@@ -1,6 +1,8 @@
 package cubesystem.vn.notifyschedule.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -26,6 +28,7 @@ import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
 import cubesystem.vn.notifyschedule.R;
+import cubesystem.vn.notifyschedule.adapter.ScheduleListAdapter;
 import cubesystem.vn.notifyschedule.model.Schedule;
 import cubesystem.vn.notifyschedule.model.ScheduleList;
 import cubesystem.vn.notifyschedule.request.ScheduleAllRequest;
@@ -35,13 +38,14 @@ import cubesystem.vn.notifyschedule.response.ScheduleResponse;
 import cubesystem.vn.notifyschedule.service.JsonSpiceService;
 import cubesystem.vn.notifyschedule.service.TimeService;
 
-public class ScheduleListActivity extends AppCompatActivity {
+public class ScheduleListActivity extends AppCompatActivity implements ScheduleListAdapter.ScheduleListAdapterEventHander {
 
     final static String TAG = "ScheduleListActivity";
 
     protected SpiceManager spiceManager = new SpiceManager(JsonSpiceService.class);
     protected ListView mListView;
     protected ScheduleListAdapter mAdapter;
+    protected Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,12 +132,46 @@ public class ScheduleListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void updateData(ScheduleList scheduleList){
+        mAdapter = new ScheduleListAdapter(getBaseContext(), R.layout.schedule_list_item, scheduleList);
+
+        mAdapter.setEventHandle(this);
+
+        mListView.setAdapter(mAdapter);
+    }
+
     private void performRequest() {
         ScheduleListActivity.this.setProgressBarIndeterminateVisibility(true);
 
         ScheduleAllRequest request = new ScheduleAllRequest();
 
         spiceManager.execute(request, new ListScheduleRequestListener());
+    }
+
+    @Override
+    public void onDeleteCell(final ScheduleListAdapter scheduleListAdapter, final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(ScheduleListActivity.this);
+        builder.setMessage(R.string.message_delete);
+        builder.setCancelable(true);
+
+        builder.setPositiveButton(
+                R.string.yes,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        deleteScheduleToServer(position, scheduleListAdapter.getItem(position));
+                    }
+                });
+
+        builder.setNegativeButton(
+                R.string.no,
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert11 = builder.create();
+        alert11.show();
     }
 
     //inner class of your spiced Activity
@@ -152,50 +190,12 @@ public class ScheduleListActivity extends AppCompatActivity {
             Log.d(TAG, response.toString());
 
             if (response.isSuccess()) {
-                mAdapter = new ScheduleListAdapter(getBaseContext(), R.layout.schedule_list_item, response.getData());
-                mListView.setAdapter(mAdapter);
+
+                updateData(response.getData());
+
             } else {
                 Toast.makeText(getBaseContext(), response.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }
-    }
-
-    private class ScheduleListAdapter extends ArrayAdapter<Schedule> {
-
-        public ScheduleListAdapter(Context context, int resource, ScheduleList scheduleList) {
-            super(context, resource, scheduleList);
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            // Get the data item for this position
-            Schedule schedule = getItem(position);
-            // Check if an existing view is being reused, otherwise inflate the view
-            if (convertView == null) {
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.schedule_list_item, parent, false);
-            }
-            // Lookup view for data population
-            TextView tvStartTime = (TextView) convertView.findViewById(R.id.schedule_start_time);
-            TextView tvEndTime = (TextView) convertView.findViewById(R.id.schedule_end_time);
-            TextView tvMessage = (TextView) convertView.findViewById(R.id.schedule_message);
-            ImageView ivDelete = (ImageView) convertView.findViewById(R.id.delete);
-            ivDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    actionDelete(position);
-                }
-            });
-
-            // Populate the data into the template view using the data object
-            tvStartTime.setText(schedule.getStart_time());
-            tvEndTime.setText(schedule.getEnd_time());
-            tvMessage.setText(schedule.getMessage());
-            // Return the completed view to render on screen
-            return convertView;
-        }
-
-        private void actionDelete(int position) {
-            deleteScheduleToServer(position, this.getItem(position));
         }
     }
 
@@ -222,7 +222,7 @@ public class ScheduleListActivity extends AppCompatActivity {
             //update your UI
             Log.e(TAG, spiceException.getMessage());
             Toast.makeText(getBaseContext(), spiceException.getMessage(), Toast.LENGTH_SHORT).show();
-            ScheduleListAdapter lvAdapter = (ScheduleListAdapter) mListView.getAdapter();
+            //ScheduleListAdapter lvAdapter = (ScheduleListAdapter) mListView.getAdapter();
         }
 
         @Override

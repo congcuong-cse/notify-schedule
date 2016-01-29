@@ -11,4 +11,7 @@
     <string name="error_should_not_blank">This value should not be blank</string>
     <string name="error_starttime_should_less_than_endtime">Start time should be less than end time</string>
     <string name="error_endtime_should_greater_than_starttime">End time should be greater than start time</string>
+    <string name="message_delete">Ban co muon delete khong?</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
 </resources>

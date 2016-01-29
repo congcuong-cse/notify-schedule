@@ -274,7 +274,8 @@ public class ScheduleActivity extends AppCompatActivity {
             if (scheduleResponse.isSuccess()) {
                 mSchedule = scheduleResponse.getData();
                 updateUI();
-                Toast.makeText(getBaseContext(), "update success", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getBaseContext(), "update success", Toast.LENGTH_SHORT).show();
+                finish();
             } else {
                 Toast.makeText(getBaseContext(), scheduleResponse.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -299,7 +300,8 @@ public class ScheduleActivity extends AppCompatActivity {
                 mSchedule = scheduleResponse.getData();
                 updateUI();
                 updateState(State.UPDATE);
-                Toast.makeText(getBaseContext(), "create success", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getBaseContext(), "create success", Toast.LENGTH_SHORT).show();
+                finish();
             } else {
                 Toast.makeText(getBaseContext(), scheduleResponse.getMessage(), Toast.LENGTH_SHORT).show();
             }
