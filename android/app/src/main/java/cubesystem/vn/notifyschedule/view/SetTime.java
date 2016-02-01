@@ -25,8 +25,6 @@ public class SetTime implements View.OnTouchListener, View.OnClickListener, View
 
     }
 
-
-
     public void setOnChangeListener(SetTimeEventHandler setTimeEventHandler){
         mSetTimeEventHandler = setTimeEventHandler;
     }
@@ -91,9 +89,9 @@ public class SetTime implements View.OnTouchListener, View.OnClickListener, View
 
             timePickerDialog.show();
             SetTime.this.isTimePickerShow = true;
+            SetTime.this.editText.requestFocus(View.FOCUS_DOWN);
 
         }
-
     }
 
     @Override

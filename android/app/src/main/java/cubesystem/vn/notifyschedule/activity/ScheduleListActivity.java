@@ -23,6 +23,7 @@ import com.octo.android.robospice.request.listener.RequestListener;
 
 import cubesystem.vn.notifyschedule.R;
 import cubesystem.vn.notifyschedule.adapter.ScheduleListAdapter;
+import cubesystem.vn.notifyschedule.broadcast_receiver.BootCompleteReceiver;
 import cubesystem.vn.notifyschedule.model.Schedule;
 import cubesystem.vn.notifyschedule.model.ScheduleList;
 import cubesystem.vn.notifyschedule.request.ScheduleAllRequest;

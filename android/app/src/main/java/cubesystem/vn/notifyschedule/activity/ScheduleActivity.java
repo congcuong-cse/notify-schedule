@@ -98,8 +98,8 @@ public class ScheduleActivity extends AppCompatActivity {
                     textInputLayoutFrom.setErrorEnabled(false);
                 }
                 else {
-                    textInputLayoutFrom.setError(getString(R.string.error_starttime_should_less_than_endtime));
-                    textInputLayoutFrom.setErrorEnabled(true);
+                    textInputLayoutTo.setError(getString(R.string.error_endtime_should_greater_than_starttime));
+                    textInputLayoutTo.setErrorEnabled(true);
                 }
             }
 
@@ -221,23 +221,21 @@ public class ScheduleActivity extends AppCompatActivity {
             textInputLayoutMessage.setError(null);
             textInputLayoutMessage.setErrorEnabled(false);
 
-            if (fromTime.getSeconds() < 0) {
-                textInputLayoutFrom.setError(getString(R.string.error_should_not_blank));
-                textInputLayoutFrom.setErrorEnabled(true);
-                isValid = false;
-            }
-
             if (toTime.getSeconds() < 0) {
                 textInputLayoutTo.setError(getString(R.string.error_should_not_blank));
                 textInputLayoutTo.setErrorEnabled(true);
                 isValid = false;
             }
 
+            if (fromTime.getSeconds() < 0) {
+                textInputLayoutFrom.setError(getString(R.string.error_should_not_blank));
+                textInputLayoutFrom.setErrorEnabled(true);
+                isValid = false;
+            }
+
             if (isValid) {
 
                 if (fromTime.getSeconds() >= toTime.getSeconds()) {
-                    textInputLayoutFrom.setError(getString(R.string.error_starttime_should_less_than_endtime));
-                    textInputLayoutFrom.setErrorEnabled(true);
                     textInputLayoutTo.setError(getString(R.string.error_endtime_should_greater_than_starttime));
                     textInputLayoutTo.setErrorEnabled(true);
                     isValid = false;
