@@ -83,7 +83,7 @@ public class ScheduleActivity extends AppCompatActivity {
 
             @Override
             public void onCreateTimePickerDialog(TimePickerDialog timePickerDialog) {
-                timePickerDialog.setTitle("From time");
+                timePickerDialog.setTitle("時間From");
                 timePickerDialog.setButton(TimePickerDialog.BUTTON_POSITIVE, "OK", timePickerDialog);
             }
         });
@@ -105,7 +105,7 @@ public class ScheduleActivity extends AppCompatActivity {
 
             @Override
             public void onCreateTimePickerDialog(TimePickerDialog timePickerDialog) {
-                timePickerDialog.setTitle("To time");
+                timePickerDialog.setTitle("時間To");
                 timePickerDialog.setButton(TimePickerDialog.BUTTON_POSITIVE, "OK", timePickerDialog);
             }
         });

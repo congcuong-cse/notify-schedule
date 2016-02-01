@@ -2,6 +2,7 @@ package cubesystem.vn.notifyschedule.view;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -73,9 +74,24 @@ public class SetTime implements View.OnTouchListener, View.OnClickListener, View
                 mSetTimeEventHandler.onCreateTimePickerDialog(timePickerDialog);
             }
 
-            timePickerDialog.show();
+            timePickerDialog.setOnCancelListener(new TimePickerDialog.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    SetTime.this.isTimePickerShow = false;
+                }
+            });
 
-            this.isTimePickerShow = true;
+            timePickerDialog.setOnDismissListener(new TimePickerDialog.OnDismissListener() {
+
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    SetTime.this.isTimePickerShow = false;
+                }
+            });
+
+            timePickerDialog.show();
+            SetTime.this.isTimePickerShow = true;
+
         }
 
     }
@@ -92,7 +108,6 @@ public class SetTime implements View.OnTouchListener, View.OnClickListener, View
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         // TODO Auto-generated method stub
         this.editText.setText(String.format("%02d:%02d", hourOfDay, minute));
-        this.isTimePickerShow = false;
 
         int seconds = hourOfDay*3600 + minute*60;
 
