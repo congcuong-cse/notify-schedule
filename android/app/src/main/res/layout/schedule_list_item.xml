@@ -18,7 +18,7 @@
         <ImageView
             android:id="@+id/delete"
             android:src="@drawable/trash"
-            android:layout_width="70dp"
+            android:layout_width="80dp"
             android:background="#ff0000"
             android:paddingLeft="25dp"
             android:paddingRight="25dp"
@@ -35,14 +35,14 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_gravity="center_vertical">
 
             <TextView
                 android:id="@+id/schedule_start_time"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:text="xx:xx"
                 android:layout_weight="4"
                 android:textSize="18dp"/>
@@ -50,7 +50,7 @@
             <TextView
                 android:id="@+id/schedule_end_time"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:text="xx:xx"
                 android:layout_weight="3"
                 android:textSize="24dp" />
@@ -59,16 +59,18 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="24dp">
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="message"
+                android:text="message\nmessage\nmessage\nmessage"
                 android:id="@+id/schedule_message"
                 android:textSize="25dp" />
         </LinearLayout>
     </LinearLayout>
+
+
 </com.daimajia.swipe.SwipeLayout>
