@@ -40,7 +40,6 @@ public class ScheduleListActivity extends AppCompatActivity implements ScheduleL
     protected SpiceManager spiceManager = new SpiceManager(JsonSpiceService.class);
     protected ListView mListView;
     protected ScheduleListAdapter mAdapter;
-    protected Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

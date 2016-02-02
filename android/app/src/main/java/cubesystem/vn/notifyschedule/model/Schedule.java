@@ -74,15 +74,20 @@ public class Schedule {
 
     public String timeRemaining(Calendar calendar) {
 
-        int startTime = Schedule.getHour(start_time) * 3600 + Schedule.getMinute(start_time) * 60;
-        int endTime = Schedule.getHour(end_time) * 3600 + Schedule.getMinute(end_time) * 60;
-        int currentTime = calendar.get(Calendar.HOUR_OF_DAY) * 3600 + calendar.get(Calendar.MINUTE) * 60;
+        try {
+            int startTime = Schedule.getHour(start_time) * 3600 + Schedule.getMinute(start_time) * 60;
+            int endTime = Schedule.getHour(end_time) * 3600 + Schedule.getMinute(end_time) * 60;
+            int currentTime = calendar.get(Calendar.HOUR_OF_DAY) * 3600 + calendar.get(Calendar.MINUTE) * 60;
 
-        if (startTime <= currentTime && currentTime <= endTime) {
-            int remaining_sec = endTime - currentTime;
-            int remaning_hour = remaining_sec / 3600;
-            int remaning_min = remaining_sec % 3600 / 60;
-            return String.format("%d:%d", remaning_hour, remaning_min);
+            if (startTime <= currentTime && currentTime <= endTime) {
+                int remaining_sec = endTime - currentTime;
+                int remaning_hour = remaining_sec / 3600;
+                int remaning_min = remaining_sec % 3600 / 60;
+                return String.format("%d:%d", remaning_hour, remaning_min);
+            }
+        }
+        catch (Exception e){
+            return null;
         }
 
         return null;
