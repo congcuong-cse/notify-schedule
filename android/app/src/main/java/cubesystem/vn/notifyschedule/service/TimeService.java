@@ -82,7 +82,8 @@ public class TimeService extends Service {
             @Override
             public void onRequestFailure(SpiceException spiceException) {
                 Log.e(TAG, spiceException.getMessage());
-                Toast.makeText(getBaseContext(), spiceException.getMessage(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getBaseContext(), spiceException.getMessage(), Toast.LENGTH_SHORT).show();
+                notificate();
             }
 
             @Override
@@ -96,43 +97,47 @@ public class TimeService extends Service {
                     //Toast.makeText(getBaseContext(), scheduleAllResponse.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
-                if (mScheduleList != null){
-                    Calendar now = Calendar.getInstance();
-
-                    NotificationManager notificationManager =
-                            (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                    notificationManager.cancelAll();
-
-                    for (Schedule shSchedule : mScheduleList) {
-
-                        String remaining = shSchedule.timeRemaining(now);
-                        if (remaining != null) {
-
-                            //Intent resultIntent = new Intent(getBaseContext(), ScheduleListActivity.class);
-                            //PendingIntent resultPendingIntent = PendingIntent.getActivity(getBaseContext(), 0, resultIntent, 0);
-
-                            NotificationCompat.Builder builder = new NotificationCompat.Builder(getBaseContext());
-                            Uri alertSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-                            builder.setSmallIcon(R.mipmap.ic_launcher)
-                                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
-                                    .setContentTitle(shSchedule.getMessage())
-                                    .setContentText(String.format("%s後", remaining))
-                                    .setContentIntent(null)
-                                    .setFullScreenIntent(null, true)
-                                    .setDefaults(Notification.DEFAULT_ALL)
-                                    .setPriority(Notification.PRIORITY_MAX)
-                                    .setSound(alertSound)
-                                    .setVisibility(Notification.VISIBILITY_PUBLIC);
-
-
-                            notificationManager.notify(shSchedule.getId(), builder.getNotification());
-                        }
-
-                    }
-                }
+                notificate();
 
             }
         });
+    }
+
+    private void notificate(){
+        if (mScheduleList != null){
+            Calendar now = Calendar.getInstance();
+
+            NotificationManager notificationManager =
+                    (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            notificationManager.cancelAll();
+
+            for (Schedule shSchedule : mScheduleList) {
+
+                String remaining = shSchedule.timeRemaining(now);
+                if (remaining != null) {
+
+                    //Intent resultIntent = new Intent(getBaseContext(), ScheduleListActivity.class);
+                    //PendingIntent resultPendingIntent = PendingIntent.getActivity(getBaseContext(), 0, resultIntent, 0);
+
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getBaseContext());
+                    Uri alertSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+                    builder.setSmallIcon(R.mipmap.ic_launcher)
+                            .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
+                            .setContentTitle(shSchedule.getMessage())
+                            .setContentText(String.format("%s後", remaining))
+                            .setContentIntent(null)
+                            .setFullScreenIntent(null, true)
+                            .setDefaults(Notification.DEFAULT_ALL)
+                            .setPriority(Notification.PRIORITY_MAX)
+                            .setSound(alertSound)
+                            .setVisibility(Notification.VISIBILITY_PUBLIC);
+
+
+                    notificationManager.notify(shSchedule.getId(), builder.getNotification());
+                }
+
+            }
+        }
     }
 
     private class TimeDisplayTimerTask extends TimerTask {

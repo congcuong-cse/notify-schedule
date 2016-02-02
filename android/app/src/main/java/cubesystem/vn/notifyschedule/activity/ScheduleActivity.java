@@ -66,16 +66,15 @@ public class ScheduleActivity extends AppCompatActivity {
         fromTime = new SetTime(editTextFrom, this);
         toTime = new SetTime(editTextTo, this);
 
-        fromTime.setOnChangeListener(new SetTime.SetTimeEventHandler() {
+        fromTime.setTimeEventHandler(new SetTime.SetTimeEventHandler() {
             @Override
             public void onChange(int newSeconds) {
                 textInputLayoutFrom.setError(null);
                 textInputLayoutFrom.setErrorEnabled(false);
-                if (newSeconds < toTime.getSeconds()){
+                if (newSeconds < toTime.getSeconds()) {
                     textInputLayoutTo.setError(null);
                     textInputLayoutTo.setErrorEnabled(false);
-                }
-                else {
+                } else {
                     textInputLayoutTo.setError(getString(R.string.error_endtime_should_greater_than_starttime));
                     textInputLayoutTo.setErrorEnabled(true);
                 }
@@ -88,16 +87,15 @@ public class ScheduleActivity extends AppCompatActivity {
             }
         });
 
-        toTime.setOnChangeListener(new SetTime.SetTimeEventHandler() {
+        toTime.setTimeEventHandler(new SetTime.SetTimeEventHandler() {
             @Override
             public void onChange(int newSeconds) {
                 textInputLayoutTo.setError(null);
                 textInputLayoutTo.setErrorEnabled(false);
-                if (newSeconds > fromTime.getSeconds()){
+                if (newSeconds > fromTime.getSeconds()) {
                     textInputLayoutFrom.setError(null);
                     textInputLayoutFrom.setErrorEnabled(false);
-                }
-                else {
+                } else {
                     textInputLayoutTo.setError(getString(R.string.error_endtime_should_greater_than_starttime));
                     textInputLayoutTo.setErrorEnabled(true);
                 }
@@ -143,26 +141,9 @@ public class ScheduleActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
     protected void onStop() {
         spiceManager.shouldStop();
         super.onStop();
-    }
-
-    @Override
-    public void onBackPressed() {
-        finish();
-        super.onBackPressed();
-    }
-
-    @Override
-    public void finish() {
-        setResult(RESULT_OK, null);
-        super.finish();
     }
 
     private void updateState(State s) {

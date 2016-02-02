@@ -10,7 +10,8 @@ import android.widget.TimePicker;
 
 import java.util.Calendar;
 
-public class SetTime implements View.OnTouchListener, View.OnClickListener, View.OnFocusChangeListener, TimePickerDialog.OnTimeSetListener {
+public class SetTime implements View.OnTouchListener, View.OnClickListener,
+        View.OnFocusChangeListener, TimePickerDialog.OnTimeSetListener {
 
     private EditText editText;
     private Calendar myCalendar;
@@ -25,7 +26,7 @@ public class SetTime implements View.OnTouchListener, View.OnClickListener, View
 
     }
 
-    public void setOnChangeListener(SetTimeEventHandler setTimeEventHandler){
+    public void setTimeEventHandler(SetTimeEventHandler setTimeEventHandler){
         mSetTimeEventHandler = setTimeEventHandler;
     }
 
